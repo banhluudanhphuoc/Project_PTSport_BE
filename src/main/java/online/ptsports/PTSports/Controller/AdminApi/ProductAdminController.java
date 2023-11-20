@@ -28,7 +28,7 @@ public class ProductAdminController {
     ProductService productService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<ProductDto>> getAll(){
         return ResponseEntity.ok(productService.getAllProduct());
     }
@@ -40,7 +40,7 @@ public class ProductAdminController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "/")
+    @PostMapping()
     public ResponseEntity<ProductDto>createGeneral(@ModelAttribute ProductDto productDto)throws IOException{
 //    return ResponseEntity.ok(generalProductService.createGeneral(generalProductDto));
 

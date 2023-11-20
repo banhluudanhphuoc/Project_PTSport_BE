@@ -27,6 +27,8 @@ public class ProductDto implements Serializable {
     private int lengthIDX;
     private LengthDto length;
     private  CatalogDto catalog;
+    private int categoryID ;
+    private CategoryDto category;
     private Set<MultipartFile> files = new HashSet<>();
     List<ImageProductDto> listImage = new ArrayList<>();
     List<Integer>sizesID = new ArrayList<>();

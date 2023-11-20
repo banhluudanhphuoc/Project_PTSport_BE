@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     CatalogRepo catalogRepo;
 
+
     @Autowired
     ModelMapper modelMapper;
 
@@ -56,6 +57,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private FileUploadCloudinary fileUploadCloudinary ;
+
+    @Autowired
+    private CategoryRepo categoryRepo;
 
     @Override
     public ProductDto getProductById(Integer productId) {
@@ -80,9 +84,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto createProduct(ProductDto productDto) {
 
         try {
-            Catalog catalog = catalogRepo.findById(productDto.getCatalogID()).orElseThrow(() -> new ResoureNotFoundException("Catalog", "ID", productDto.getCatalogID()));
-            Length length = lengthRepo.findById(productDto.getLengthIDX()).orElseThrow(() -> new ResoureNotFoundException("Length", "ID", productDto.getLengthIDX()));
-            
+            Category category = categoryRepo.findById(productDto.getCategoryID())
+                    .orElseThrow(() -> new ResoureNotFoundException("Category", "ID", String.valueOf(productDto.getCategoryID())));
+
+            Catalog catalog = catalogRepo.findById(productDto.getCatalogID())
+                    .orElseThrow(() -> new ResoureNotFoundException("Catalog", "ID", String.valueOf(productDto.getCatalogID())));
+
+
+            Length length = lengthRepo.findById(productDto.getLengthIDX())
+                    .orElseThrow(() -> new ResoureNotFoundException("Length", "ID", String.valueOf(productDto.getLengthIDX())));
+
 
             Product product = this.convertToProduct(productDto);
 
@@ -96,8 +107,8 @@ public class ProductServiceImpl implements ProductService {
             }
             product.setSizes(lisSizes);
 
-           
-               
+
+
             List<Integer> colorID = productDto.getColorsID();
             Set<Color> lisColors = new HashSet<>();
             for (int i = 0; i < colorID.size(); i++) {
@@ -107,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
                 lisColors.add(color);
             }
             product.setColors(lisColors);
-         
+
 
             Set<MultipartFile> files = productDto.getFiles();
 
@@ -121,6 +132,7 @@ public class ProductServiceImpl implements ProductService {
             }
 
             product.setCatalog(catalog);
+            product.setCategory(category);
             product.setLength(length);
             productRepo.save(product);
 
@@ -131,6 +143,10 @@ public class ProductServiceImpl implements ProductService {
         }
         return productDto;
     }
+
+
+
+
 
     @Override
     public ProductDto updateProduct(ProductDto productDto, Integer productId) {
@@ -192,6 +208,7 @@ public class ProductServiceImpl implements ProductService {
 
             Catalog catalog = catalogRepo.findById(productDto.getCatalogID()).orElseThrow(() -> new ResoureNotFoundException("Catalog", "ID", productDto.getCatalogID()));
             Length length = lengthRepo.findById(productDto.getLengthIDX()).orElseThrow(() -> new ResoureNotFoundException("Length", "ID", productDto.getLengthIDX()));
+            Category category = categoryRepo.findById(productDto.getCategoryID()).orElseThrow(() -> new ResoureNotFoundException("Category", "ID", productDto.getCategoryID()));
 
             if (productDto.getTotalQuantity() == null) {
                 product.setTotalQuantity(product0.getTotalQuantity());
@@ -199,6 +216,7 @@ public class ProductServiceImpl implements ProductService {
             product.setSizes(sizes);
             product.setCatalog(catalog);
             product.setLength(length);
+            product.setCategory(category);
             productRepo.save(product);
 
             return this.convertToProductDto(product);

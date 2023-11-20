@@ -47,6 +47,10 @@ public class Product extends TimeAuditable {
     @JoinTable(name = "product_color", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "color_id"))
     private Set<Color> colors;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name="category_id")
+    private Category category;
+
 
 //    @ManyToMany(mappedBy = "product", cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
 //    @JsonIgnore

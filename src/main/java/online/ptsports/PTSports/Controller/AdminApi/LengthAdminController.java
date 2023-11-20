@@ -22,7 +22,7 @@ public class LengthAdminController {
     LengthService lengthService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<LengthDto>> getAll(){
         return ResponseEntity.ok(lengthService.getAllLengths());
     }
@@ -32,7 +32,7 @@ public class LengthAdminController {
     public ResponseEntity<LengthDto>getLength(@PathVariable("id") Integer id){
         return ResponseEntity.ok(lengthService.getLengthById(id));
     }
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<LengthDto>createLength(@RequestBody LengthDto lengthDto){
         return ResponseEntity.ok(lengthService.createLength(lengthDto));
     }

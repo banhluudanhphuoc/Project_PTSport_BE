@@ -21,7 +21,7 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("")
+    @GetMapping()
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
     public ResponseEntity<List<CategoryDto>> getAll() {
@@ -35,7 +35,7 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<CategoryDto> createCatalog(@RequestBody CategoryDto catalogDto) {
         return ResponseEntity.ok(categoryService.createCategory(catalogDto));
     }

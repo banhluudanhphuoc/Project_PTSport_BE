@@ -22,7 +22,7 @@ public class Blog extends TimeAuditable {
     @Column(length = 10000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name="category_id")
-    private Category category;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+//    @JoinColumn(name="category_id")
+//    private Category category;
 }

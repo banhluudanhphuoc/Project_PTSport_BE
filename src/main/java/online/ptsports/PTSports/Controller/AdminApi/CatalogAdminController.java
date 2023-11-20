@@ -22,7 +22,7 @@ public class CatalogAdminController {
     CatalogService catalogService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<CatalogDto>> getAll(){
         return ResponseEntity.ok(catalogService.getAllCatalogs());
     }
@@ -35,7 +35,7 @@ public class CatalogAdminController {
 
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<CatalogDto>createCatalog(@RequestBody CatalogDto catalogDto){
         return ResponseEntity.ok(catalogService.createCatalog(catalogDto));
     }

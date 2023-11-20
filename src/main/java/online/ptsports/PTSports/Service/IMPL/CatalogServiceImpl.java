@@ -3,7 +3,9 @@ package online.ptsports.PTSports.Service.IMPL;
 
 
 import online.ptsports.PTSports.DTO.CatalogDto;
+import online.ptsports.PTSports.DTO.CategoryDto;
 import online.ptsports.PTSports.Entity.Catalog;
+import online.ptsports.PTSports.Entity.Category;
 import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
 import online.ptsports.PTSports.Repository.CatalogRepo;
 import online.ptsports.PTSports.Service.CatalogService;
@@ -22,12 +24,19 @@ public class CatalogServiceImpl implements CatalogService {
     @Autowired
     ModelMapper modelMapper;
 
+//    @Override
+//    public CatalogDto createCatalog(CatalogDto catalogDto) {
+//        Catalog catalog = this.convertToCatalog(catalogDto);
+//        catalogRepo.save(catalog);
+//        return catalogDto;
+//
+//    }
+
     @Override
     public CatalogDto createCatalog(CatalogDto catalogDto) {
-        Catalog catalog = this.convertToCatalog(catalogDto);
+        Catalog catalog = convertToCatalog(catalogDto);
         catalogRepo.save(catalog);
-        return catalogDto;
-
+        return convertToCatalogDto(catalog);
     }
 
     @Override

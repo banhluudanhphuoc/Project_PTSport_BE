@@ -1,5 +1,6 @@
 package online.ptsports.PTSports.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,11 @@ public class Category {
     @Column(name="name",length = 100,nullable = false)
     private String categoryName;
 
+//    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    private List<Blog> blogs =new ArrayList<>();
+
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Blog> blogs =new ArrayList<>();
+    @JsonIgnore
+    private List<Product> products =new ArrayList<>();
 
 }

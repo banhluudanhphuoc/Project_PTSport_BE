@@ -21,7 +21,7 @@ public class SizeAdminController {
     SizeService sizeService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<SizeDto>> getAllSize(){
         return ResponseEntity.ok(sizeService.getAllSize());
     }
@@ -33,7 +33,7 @@ public class SizeAdminController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<SizeDto>createColor(@RequestBody SizeDto sizeDto){
         return ResponseEntity.ok(sizeService.createSize(sizeDto));
     }

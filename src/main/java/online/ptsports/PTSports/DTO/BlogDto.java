@@ -11,6 +11,5 @@ public class BlogDto {
     private Integer blogId;
     private String title;
     private String content;
-    private int categoryID;
-    private CategoryDto category;
+
 }

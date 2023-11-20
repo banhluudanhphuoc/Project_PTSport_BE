@@ -23,7 +23,7 @@ public class ColorAdminController {
 
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<ColorDto>>getAllColor(){
         return ResponseEntity.ok(colorService.getAllColor());
     }
@@ -33,7 +33,7 @@ public class ColorAdminController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<ColorDto>createColor(@RequestBody ColorDto colorDto){
         return ResponseEntity.ok(colorService.createColor(colorDto));
     }

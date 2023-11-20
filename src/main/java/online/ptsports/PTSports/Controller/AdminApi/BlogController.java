@@ -21,7 +21,7 @@ public class BlogController {
     BlogService blogService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<BlogDto>> getAll(){
         return ResponseEntity.ok(blogService.getAllBlogs());
     }
@@ -33,7 +33,7 @@ public class BlogController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<BlogDto>createBlog(@RequestBody BlogDto catalogDto){
         return ResponseEntity.ok(blogService.createBlog(catalogDto));
     }

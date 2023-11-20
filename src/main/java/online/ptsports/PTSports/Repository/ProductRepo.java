@@ -19,6 +19,17 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query("SELECT distinct p FROM Product p JOIN p.sizes s JOIN p.colors c join p.length l JOIN p.catalog ct WHERE 1=1 and (:sizeID is null or s.id = :sizeID) and (:lengthID is null or l.id = :lengthID) AND (:catalogID is null or ct.catalogId = :catalogID) AND (:colorID is null or c.id = :colorID) AND (:startPrice is null or p.price >= :startPrice) AND (:endPrice is null or p.price <= :endPrice)")
     List<Product> findProductsBySizeColorAndCatalog(@Param("sizeID") Integer sizeID, @Param("catalogID") Integer catalogId, @Param("colorID") Integer colorID, @Param("startPrice") double startPrice, @Param("endPrice") Double endPrice,@Param("lengthID")Integer lengthID);
 
+//    @Query("SELECT distinct p FROM Product p JOIN p.sizes s JOIN p.colors c join p.length l JOIN p.catalog ct WHERE 1=1 and (:sizeID is null or s.id = :sizeID) and (:lengthID is null or l.id = :lengthID) AND (:catalogID is null or ct.catalogId = :catalogID) AND (:colorID is null or c.id = :colorID) AND (:startPrice is null or p.price >= :startPrice) AND (:endPrice is null or p.price <= :endPrice)AND (:categoryID is null or ct.categoryId = :categoryID)")
+//    List<Product> findProductsBySizeColorAndCatalog(
+//            @Param("sizeID") Integer sizeID,
+//            @Param("catalogId") Integer catalogId,
+//            @Param("categoryId") Integer categoryId,
+//            @Param("colorID") Integer colorID,
+//            @Param("startPrice") double startPrice,
+//            @Param("endPrice") Double endPrice,
+//            @Param("lengthID") Integer lengthID
+//    );
+
     @Query("select distinct p from Product p join p.length l where 1=1 and l.id =:lengthID")
     List<Product>filterByLength(@Param("lengthID")int id);
 
