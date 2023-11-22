@@ -6,7 +6,7 @@ import com.cloudinary.Cloudinary;
 import online.ptsports.PTSports.Config.AppConstants;
 import online.ptsports.PTSports.DTO.PageDto;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
-import online.ptsports.PTSports.DTO.ResponseDTO;
+import online.ptsports.PTSports.DTO.Response.ResponseDTO;
 import online.ptsports.PTSports.DTO.UserDto;
 import online.ptsports.PTSports.Service.FileUploadCloudinary;
 import online.ptsports.PTSports.Service.UserService;

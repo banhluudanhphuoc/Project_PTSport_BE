@@ -1,4 +1,4 @@
-package online.ptsports.PTSports.DTO;
+package online.ptsports.PTSports.DTO.Response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

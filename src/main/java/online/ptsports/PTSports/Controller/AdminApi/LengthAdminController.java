@@ -32,10 +32,13 @@ public class LengthAdminController {
     public ResponseEntity<LengthDto>getLength(@PathVariable("id") Integer id){
         return ResponseEntity.ok(lengthService.getLengthById(id));
     }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<LengthDto>createLength(@RequestBody LengthDto lengthDto){
         return ResponseEntity.ok(lengthService.createLength(lengthDto));
     }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<LengthDto>updateCatalog(@PathVariable("id")Integer id, @RequestBody LengthDto lengthDto){
         return ResponseEntity.ok(lengthService.updateLength(lengthDto, id));

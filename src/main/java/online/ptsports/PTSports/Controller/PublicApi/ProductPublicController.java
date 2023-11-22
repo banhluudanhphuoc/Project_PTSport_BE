@@ -40,7 +40,7 @@ public class ProductPublicController {
         return new ResponseEntity<PageDto<ProductDto>>(productResponse, HttpStatus.FOUND);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<List<ProductDto>> search(@ModelAttribute SearchDto searchDto) {
         return ResponseEntity.ok(productService.search(searchDto));
     }

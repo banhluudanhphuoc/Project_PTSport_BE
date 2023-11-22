@@ -6,7 +6,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import online.ptsports.PTSports.DTO.Response.ApiError;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
-import online.ptsports.PTSports.DTO.ResponseDTO;
+import online.ptsports.PTSports.DTO.Response.ResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;

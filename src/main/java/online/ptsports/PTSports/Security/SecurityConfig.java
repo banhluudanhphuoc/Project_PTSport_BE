@@ -54,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/auth/**" , "/api/public/**").permitAll()
                 .anyRequest().permitAll()
@@ -69,7 +69,9 @@ public class SecurityConfig {
                 .formLogin()
                 .disable();
 
-
+        http.cors().and()
+                .csrf().disable()
+                .authorizeRequests();
         // Apply JWT
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

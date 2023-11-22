@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/blogs")
 @CrossOrigin
-public class BlogController {
+public class BlogAdminController {
 
     @Autowired
     BlogService blogService;

@@ -1,8 +1,10 @@
-package online.ptsports.PTSports.DTO;
+package online.ptsports.PTSports.DTO.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class ResponseFetchMe {
 
     private String avatar;
 
+    private Date birthdate;
 
 
     private String role;

@@ -27,6 +27,8 @@ public class ColorAdminController {
     public ResponseEntity<List<ColorDto>>getAllColor(){
         return ResponseEntity.ok(colorService.getAllColor());
     }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ColorDto> getOne(@PathVariable("id")Integer id){
         return ResponseEntity.ok(colorService.getColorById(id));

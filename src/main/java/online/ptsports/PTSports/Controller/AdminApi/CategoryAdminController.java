@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/categories")
 @CrossOrigin
-public class CategoryController {
+public class CategoryAdminController {
     @Autowired
     CategoryService categoryService;
 
@@ -30,32 +30,32 @@ public class CategoryController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getCatalog(@PathVariable("id") Integer id) {
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
-    public ResponseEntity<CategoryDto> createCatalog(@RequestBody CategoryDto catalogDto) {
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto catalogDto) {
         return ResponseEntity.ok(categoryService.createCategory(catalogDto));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<CategoryDto> updateCatalog(@PathVariable("id") Integer id, @RequestBody CategoryDto catalogDto) {
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryDto catalogDto) {
         return ResponseEntity.ok(categoryService.updateCategory(catalogDto, id));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCatalog(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> deleteCCategory(@PathVariable("id") Integer id) {
         categoryService.deleteCategory(id);
         return new ResponseEntity(new ApiResponse("Category deleted Successfully", true), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addcategorys")
-    public ResponseEntity<?> addCatalods(@RequestBody List<Category> catalogs) {
+    public ResponseEntity<?> addCategories(@RequestBody List<Category> catalogs) {
 
         // TODO: Xử lý logic để thêm nhiều catalog vào trong cơ sở dữ liệu
         categoryService.addCategorysService(catalogs);
@@ -65,7 +65,7 @@ public class CategoryController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/deletecategorys")
-    public ResponseEntity<?> deleteCatalogs(@RequestBody List<Integer> caterotyIds) {
+    public ResponseEntity<?> deleteCategories(@RequestBody List<Integer> caterotyIds) {
         categoryService.deleteCategorysService(caterotyIds);
         return new ResponseEntity(new ApiResponse("Delete all success!!!", true), HttpStatus.OK);
     }
