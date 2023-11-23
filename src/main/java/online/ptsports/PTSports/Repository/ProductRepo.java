@@ -27,6 +27,9 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     List<Product>filterByCatalog(@Param("id")Integer id);
 //    @Query("select count p.id from Product  p where 1=1")
 //    int count();
+
+    @Query("select distinct p from Product p join p.category ct where 1=1 and ct.categoryId =:id")
+    List<Product>filterByCategory(@Param("id")Integer id);
 @Query("select sum(p.totalQuantity) from Product p")
     int totalQuantity();
 }

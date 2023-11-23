@@ -37,7 +37,12 @@ public class ProductPublicController {
 
         PageDto<ProductDto> productResponse = productService.getProductsHomePage(pageNumber, pageSize, sortBy, sortOrder);
 
-        return new ResponseEntity<PageDto<ProductDto>>(productResponse, HttpStatus.FOUND);
+        return new ResponseEntity<PageDto<ProductDto>>(productResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getOne(@PathVariable("id")Integer id){
+        return  ResponseEntity.ok(productService.getProductById(id));
     }
 
     @PostMapping()
@@ -52,5 +57,10 @@ public class ProductPublicController {
     @GetMapping("/filter-by-catalog/{id}")
     public ResponseEntity<List<ProductDto>>filterByCatalog(@PathVariable("id")int id){
         return ResponseEntity.ok(productService.filterByCatalog(id));
+    }
+
+    @GetMapping("/filter-by-category/{id}")
+    public ResponseEntity<List<ProductDto>>filterByCategory(@PathVariable("id")int id){
+        return ResponseEntity.ok(productService.filterByCategory(id));
     }
 }

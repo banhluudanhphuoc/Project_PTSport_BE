@@ -34,6 +34,8 @@ public interface ProductService {
 
     List<ProductDto>filterByCatalog(int id);
 
+    List<ProductDto>filterByCategory(int id);
+
     Product convertToProduct(ProductDto productDto);
 
     ProductDto convertToProductDto(Product product);

@@ -335,6 +335,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDto> filterByCategory(int id) {
+        List<Product> products = productRepo.filterByCategory(id);
+        List<ProductDto> productDtos = new ArrayList<>();
+
+        for (Product product : products) {
+            productDtos.add(this.convertToProductDto(product));
+        }
+        return productDtos;
+    }
+
+    @Override
     public int count() {
         int count = productRepo.totalQuantity();
         return count;
