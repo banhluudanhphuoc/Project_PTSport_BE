@@ -23,7 +23,7 @@ public class ProductPublicController {
     private ProductService productService;
 
 
-    @GetMapping("/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<?> searchProduct(@PathVariable("name") String name) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByName(name));
     }
@@ -40,7 +40,7 @@ public class ProductPublicController {
         return new ResponseEntity<PageDto<ProductDto>>(productResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<ProductDto> getOne(@PathVariable("id")Integer id){
         return  ResponseEntity.ok(productService.getProductById(id));
     }

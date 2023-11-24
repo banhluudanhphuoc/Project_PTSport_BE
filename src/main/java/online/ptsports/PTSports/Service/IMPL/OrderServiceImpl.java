@@ -24,8 +24,15 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Service
 public class OrderServiceImpl implements OrderService {
+
+//    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
+
 
     @Autowired
     OrderRepo orderRepo;
@@ -183,6 +190,79 @@ public class OrderServiceImpl implements OrderService {
             throw e;
         }
     }
+//@Override
+//@Transactional(rollbackOn = Exception.class)
+//public void saveOrderService(OrderDto orderDto, HttpSession httpSession) {
+//    try {
+//        // Kiểm tra orderDto không phải là null
+//        if (orderDto == null) {
+//            throw new IllegalArgumentException("orderDto is null");
+//        }
+//
+//        // Kiểm tra user_id không phải là null
+//        Integer userId = orderDto.getUserID();
+//        if (userId == null) {
+//            throw new IllegalArgumentException("userID is null");
+//        }
+//
+//        // Kiểm tra xem user có tồn tại không
+//        User user = userRepo.findById(userId).orElseThrow(() -> new ResoureNotFoundException("User", "ID", userId));
+//
+//        // Các bước xử lý khác...
+//
+//        // Thêm log để theo dõi việc lưu đơn hàng
+//        log.info("Creating order for user with ID: {}", userId);
+//
+//        Order order = convertToOrder(orderDto);
+//        order.setOrderProducts(new ArrayList<>());
+//
+//        int type = orderDto.getType();
+//        if (type == 0) {
+//            order.setStatus(false);
+//        }
+//        if (type == 1) {
+//            order.setStatus(true);
+//        }
+//        order.setUser(user);
+//
+//        CartDto cart = cartService.getCart(userId);
+//        List<CartItemDto> cartItems = cart.getItemList();
+//
+//        double totalPrice = 0;
+//        for (int i = 0; i < cartItems.size(); i++) {
+//            OrderProduct orderProduct = new OrderProduct();
+//            int finalI = i;
+//            orderProduct.setProduct(productRepo.findById(cartItems.get(i).getProductID())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItems.get(finalI).getProductID())));
+//            orderProduct.setSize(sizeRepo.findById(cartItems.get(i).getSizeID())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Size", "ID", cartItems.get(finalI).getSizeID())));
+//            orderProduct.setColor(colorRepo.findById(cartItems.get(i).getColorID())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Color", "ID", cartItems.get(finalI).getColorID())));
+//            orderProduct.setQuantity(cartItems.get(i).getQuantity());
+//            orderProduct.setTotalPrice(cartItems.get(i).getTotalPrice());
+//
+//            orderProduct.setOrder(order);
+//            order.addOderProdcut(orderProduct);
+//
+//            totalPrice += cartItems.get(i).getTotalPrice();
+//        }
+//        order.setTotalPrice(totalPrice);
+//
+//        orderRepo.save(order);
+//
+//        Cart cart1 = cartService.convertToCart(cart);
+//        List<CartItem> cartItems1 = cart1.getItemList();
+//        for (int i = 0; i < cartItems1.size(); i++) {
+//            cartItems1.get(i).setCart(null);
+//            cartItemRepo.delete(cartItems1.get(i));
+//        }
+//        cartRepo.delete(cart1);
+//
+//    } catch (Exception e) {
+//        throw e;
+//    }
+//}
+
 
     @Override
     public Order convertToOrder(OrderDto orderDto) {

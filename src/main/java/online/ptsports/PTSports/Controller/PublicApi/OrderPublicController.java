@@ -11,12 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/public/orders")
 @CrossOrigin
-public class OrderController {
+public class OrderPublicController {
 
     @Autowired
     OrderService orderService;
@@ -28,10 +29,13 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findOrder());
     }
 //    @PostMapping("")
-//    public ResponseEntity<?>createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
-//        orderService.saveOrderService(orderDto, httpSession);
-//return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
-//
+//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession) {
+//        try {
+//            orderService.saveOrderService(orderDto, httpSession);
+//            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 //    }
     @GetMapping("/{userID}")
     public ResponseEntity<List<OrderDto>>getOrdersByUser(@PathVariable("userID")Integer id){
