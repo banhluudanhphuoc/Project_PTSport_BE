@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("/api/public/payment")
 @CrossOrigin
 public class PaymentPublicController {
     @Autowired

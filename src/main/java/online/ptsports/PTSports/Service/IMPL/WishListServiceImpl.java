@@ -83,4 +83,23 @@ public class WishListServiceImpl implements WishListService {
     public WishList convertToWishList(WishListDto wishListDto) {
         return modelMapper.map(wishListDto, WishList.class);
     }
+
+    @Override
+    public WishListDto removeFromWishList(Integer userID, Integer productID) {
+        WishList wishList = wishLitsRepo.getWishListByUserID(userID);
+
+        if (wishList == null) {
+            // Nếu danh sách mong muốn không tồn tại, không cần thực hiện gì cả
+            return null;
+        }
+
+        Set<Integer> productIDs = wishList.getProductID();
+
+        if (productIDs != null && productIDs.contains(productID)) {
+            productIDs.remove(productID);
+            wishLitsRepo.save(wishList);
+        }
+
+        return convertToWishListDto(wishList);
+    }
 }

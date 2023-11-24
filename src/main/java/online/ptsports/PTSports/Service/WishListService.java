@@ -12,4 +12,6 @@ public interface WishListService {
     WishListDto convertToWishListDto(WishList wishList);
 
     WishList convertToWishList(WishListDto wishListDto);
+
+    WishListDto removeFromWishList(Integer userID, Integer productID);
 }

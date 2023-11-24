@@ -82,4 +82,11 @@ public class WishListConrtoller {
 //        return ResponseEntity.ok(wishList);
         return ResponseEntity.ok(wishListService.addToWishList(userID,id));
     }
+
+    @DeleteMapping("/{userID}/{productID}")
+    public ResponseEntity<WishListDto> removeFromWishList(
+            @PathVariable("userID") Integer userID,
+            @PathVariable("productID") Integer productID) {
+        return ResponseEntity.ok(wishListService.removeFromWishList(userID, productID));
+    }
 }
