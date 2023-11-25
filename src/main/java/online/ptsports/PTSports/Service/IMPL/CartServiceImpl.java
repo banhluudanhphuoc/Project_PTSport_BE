@@ -138,47 +138,81 @@ CartItem cartItem = convertToCartItem(cartItemDto);
         cartRepo.save(cart);
     }
 
-    @Override
-    public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDto) {
-        Cart cart = cartRepo.findCartByUserId(userID);
+//    @Override
+//    public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDto) {
+//        Cart cart = cartRepo.findCartByUserId(userID);
+//
+//        List<CartItem> cartItems = cart.getItemList();
+//        Product product = productRepo.findById(cartItemDto.getProductID()).orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
+//        ProductDto productDto = productService.convertToProductDto(product);
+//CartItem cartItem = null;
+//        for (CartItem item : cartItems) {
+//
+//            if ((item.getId()==itemID) && (item.getProductID() == cartItemDto.getProductID()) && (item.getColorID() == cartItemDto.getColorID()) && (item.getSizeID() == cartItemDto.getSizeID())) {
+//
+//                item.setQuantity(cartItemDto.getQuantity());
+//
+//                if (item.getQuantity() >= productDto.getTotalQuantity()) {
+//                    item.setQuantity(productDto.getTotalQuantity());
+//                }
+//                item.setTotalPrice(cartItemDto.getPrice() * cartItemDto.getQuantity());
+//            cartItem = item;
+//            } else {
+//                continue;
+//            }
+//        }
+//
+//        cart.setItemList(cartItems);
+//
+//        cartRepo.save(cart);
+//        return convertToCartItemDto(cartItem);
+//    }
+@Override
+public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDto) {
+    Cart cart = cartRepo.findCartByUserId(userID);
 
-        List<CartItem> cartItems = cart.getItemList();
-        Product product = productRepo.findById(cartItemDto.getProductID()).orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
-        ProductDto productDto = productService.convertToProductDto(product);
-CartItem cartItem = null;
-        for (CartItem item : cartItems) {
+    if (cart == null) {
+        // Xử lý khi giỏ hàng không tồn tại
+        throw new ResoureNotFoundException("Cart", "UserID", userID);
+    }
 
-            if ((item.getId()==itemID) && (item.getProductID() == cartItemDto.getProductID()) && (item.getColorID() == cartItemDto.getColorID()) && (item.getSizeID() == cartItemDto.getSizeID())) {
+    List<CartItem> cartItems = cart.getItemList();
+    Product product = productRepo.findById(cartItemDto.getProductID()).orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
+    ProductDto productDto = productService.convertToProductDto(product);
 
-                item.setQuantity(cartItemDto.getQuantity());
+    CartItem cartItem = null;
 
-                if (item.getQuantity() >= productDto.getTotalQuantity()) {
-                    item.setQuantity(productDto.getTotalQuantity());
-                }
-                item.setTotalPrice(cartItemDto.getPrice() * cartItemDto.getQuantity());
-            cartItem = item;
-            } else {
-                continue;
+    for (CartItem item : cartItems) {
+        if ((item.getId()==itemID) && (item.getProductID() == cartItemDto.getProductID()) && (item.getColorID() == cartItemDto.getColorID()) && (item.getSizeID() == cartItemDto.getSizeID())) {
+            item.setQuantity(cartItemDto.getQuantity());
+
+            if (item.getQuantity() > productDto.getTotalQuantity()) {
+                item.setQuantity(productDto.getTotalQuantity());
             }
+
+            item.setTotalPrice(item.getPrice() * item.getQuantity());
+            cartItem = item;
         }
-
-        cart.setItemList(cartItems);
-
-        cartRepo.save(cart);
-        return convertToCartItemDto(cartItem);
     }
 
-    @Override
-    public void deleteCart(int userID) {
-        Cart cart = cartRepo.findCartByUserId(userID);
-        List<CartItem>cartItems = cart.getItemList();
-        for (int i = 0; i < cartItems.size(); i++) {
-            cartItems.get(i).setCart(null);
-            cartItemRepo.delete(cartItems.get(i));
-        }
+    cart.setItemList(cartItems);
+    cartRepo.save(cart);
 
-        cartRepo.delete(cart);
-    }
+    return convertToCartItemDto(cartItem);
+}
+
+
+//    @Override
+//    public void deleteCart(int userID) {
+//        Cart cart = cartRepo.findCartByUserId(userID);
+//        List<CartItem>cartItems = cart.getItemList();
+//        for (int i = 0; i < cartItems.size(); i++) {
+//            cartItems.get(i).setCart(null);
+//            cartItemRepo.delete(cartItems.get(i));
+//        }
+//
+//        cartRepo.delete(cart);
+//    }
 
     @Override
     public int countItem(int userID) {
@@ -189,6 +223,23 @@ CartItem cartItem = null;
 
         return count;
     }
+
+    @Override
+    public void deleteCart(int userID) {
+        Cart cart = cartRepo.findCartByUserId(userID);
+
+        if (cart != null) {
+            List<CartItem> cartItems = cart.getItemList();
+
+            for (CartItem cartItem : cartItems) {
+                cartItem.setCart(null);
+                // Không cần xóa từ repo, vì khi Cart được xóa, các CartItem sẽ tự động xóa theo cấp độ.
+            }
+
+            cartRepo.delete(cart);
+        }
+    }
+
 
     @Override
     public double totalPrice(int userID) {

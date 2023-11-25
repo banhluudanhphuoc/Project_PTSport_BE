@@ -5,6 +5,10 @@ package online.ptsports.PTSports.Controller.PublicApi;
 import online.ptsports.PTSports.DTO.CartDto;
 import online.ptsports.PTSports.DTO.CartItemDto;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
+import online.ptsports.PTSports.Entity.Cart;
+import online.ptsports.PTSports.Entity.CartItem;
+import online.ptsports.PTSports.Repository.CartItemRepo;
+import online.ptsports.PTSports.Repository.CartRepo;
 import online.ptsports.PTSports.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/cart")
@@ -21,6 +26,10 @@ public class CartPublicController {
 
     @Autowired
     CartService cartService;
+    @Autowired
+    private CartRepo cartRepo;
+    @Autowired
+    private CartItemRepo cartItemRepo;
 
     @GetMapping("/{id}")
 
@@ -163,15 +172,42 @@ public class CartPublicController {
     }
 
 
-    @DeleteMapping("/delete-cart/{userID}")
-    public ResponseEntity<?> deleteCart(@PathVariable("userID") int userID) {
-//        CartDto cart = (CartDto) request.getSession().getAttribute("cart");
-//        cart = null;
-//        request.getSession().setAttribute("cart", cart);
+//    @DeleteMapping("/delete-cart/{userID}")
+//    public ResponseEntity<?> deleteCart(@PathVariable("userID") int userID) {
+////        CartDto cart = (CartDto) request.getSession().getAttribute("cart");
+////        cart = null;
+////        request.getSession().setAttribute("cart", cart);
+////        return new ResponseEntity<>(new ApiResponse("Delete success", true), HttpStatus.OK);
+//        cartService.deleteCart(userID);
 //        return new ResponseEntity<>(new ApiResponse("Delete success", true), HttpStatus.OK);
-        cartService.deleteCart(userID);
+//    }
+@DeleteMapping("/delete-cart/{userID}")
+public ResponseEntity<?> deleteCart(@PathVariable("userID") int userID) {
+    try {
+        // Kiểm tra xem giỏ hàng có tồn tại không
+        Cart cart = cartRepo.findCartByUserId(userID);
+        if (cart == null) {
+            return new ResponseEntity<>(new ApiResponse("Cart not found", false), HttpStatus.NOT_FOUND);
+        }
+
+        // Lấy danh sách các mục trong giỏ hàng
+        List<CartItem> cartItems = cart.getItemList();
+
+        // Xóa các mục trong giỏ hàng
+        cartItems.forEach(cartItem -> {
+            cartItem.setCart(null);
+            cartItemRepo.delete(cartItem);
+        });
+
+        // Xóa giỏ hàng
+        cartRepo.delete(cart);
+
         return new ResponseEntity<>(new ApiResponse("Delete success", true), HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(new ApiResponse("Error deleting cart", false), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
+
 
     @GetMapping("/count/{userID}")
     public ResponseEntity<Integer> countItem(@PathVariable("userID") int userID) {

@@ -52,6 +52,11 @@ public class Product extends TimeAuditable {
     private Category category;
 
 
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Discount> discounts;
+
+
 //    @ManyToMany(mappedBy = "product", cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
 //    @JsonIgnore
 //    private List<WishList> wishLists;
