@@ -28,16 +28,17 @@ public class OrderPublicController {
     public ResponseEntity<List<OrderDto>>getAllOrder(){
         return ResponseEntity.ok(orderService.findOrder());
     }
-//    @PostMapping("")
-//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession) {
-//        try {
-//            orderService.saveOrderService(orderDto, httpSession);
-//            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @PostMapping("")
+    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession) {
+        try {
+            orderService.saveOrderService(orderDto, httpSession);
+            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/{userID}")
+
     public ResponseEntity<List<OrderDto>>getOrdersByUser(@PathVariable("userID")Integer id){
         return  ResponseEntity.ok(orderService.findOrderByUserID(id));
     }

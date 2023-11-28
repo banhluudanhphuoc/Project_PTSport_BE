@@ -6,6 +6,11 @@ import online.ptsports.PTSports.DTO.CartDto;
 import online.ptsports.PTSports.DTO.OrderDto;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
 import online.ptsports.PTSports.DTO.SubmitOrderDto;
+import online.ptsports.PTSports.Entity.Order;
+import online.ptsports.PTSports.Entity.OrderStatus;
+import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
+import online.ptsports.PTSports.Repository.OrderRepo;
+import online.ptsports.PTSports.Repository.OrderStatusRepo;
 import online.ptsports.PTSports.Service.CartService;
 import online.ptsports.PTSports.Service.OrderService;
 import online.ptsports.PTSports.Service.PaymentService;
@@ -30,6 +35,10 @@ public class PaymentPublicController {
 
     @Autowired
     CartService cartService;
+    @Autowired
+    private OrderStatusRepo orderStatusRepo;
+    @Autowired
+    private OrderRepo orderRepo;
 
     @PostMapping("/pay")
     public String pay(@RequestBody OrderDto orderDto, HttpServletRequest request) {
@@ -68,29 +77,68 @@ public class PaymentPublicController {
         return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
 
     }
+//    @PostMapping("/submit-order")
+//    public ResponseEntity<?>submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession){
+//        OrderDto orderDto = result.getOrderDto();
+//        String[] out = result.getString().split("&");
+//        for (int i = 0; i < out.length; i++) {
+//
+//            if(out[i].startsWith("vnp_OrderInfo")){
+//                String[]code = out[i].split("=");
+//                orderDto.setCode(code[1]);
+//            }
+//            if(out[i].startsWith("vnp_ResponseCode")){
+//                String[]code = out[i].split("=");
+//                if(code[1].equals("00")){
+//                    System.out.println("--------------code: "+ code[1]);
+//                    orderDto.setType(1);
+//
+//                    orderService.saveOrderService(orderDto, httpSession);
+//                }
+//            }
+//
+//        }
+//
+//        // Gán trạng thái "Đã Xác Nhận : Id = 2"cho đơn hàng
+//        Order order = new Order();
+//        OrderStatus updateStatus = orderStatusRepo.findById(2)
+//                .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
+//
+//        order.setOrderStatus(updateStatus);
+//        return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+//    }
+
     @PostMapping("/submit-order")
-    public ResponseEntity<?>submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession){
+    public ResponseEntity<?> submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
         OrderDto orderDto = result.getOrderDto();
         String[] out = result.getString().split("&");
         for (int i = 0; i < out.length; i++) {
-
-            if(out[i].startsWith("vnp_OrderInfo")){
-                String[]code = out[i].split("=");
+            if (out[i].startsWith("vnp_OrderInfo")) {
+                String[] code = out[i].split("=");
                 orderDto.setCode(code[1]);
             }
-            if(out[i].startsWith("vnp_ResponseCode")){
-                String[]code = out[i].split("=");
-                if(code[1].equals("00")){
-                    System.out.println("--------------code: "+ code[1]);
+            if (out[i].startsWith("vnp_ResponseCode")) {
+                String[] code = out[i].split("=");
+                if (code[1].equals("00")) {
+                    System.out.println("--------------code: " + code[1]);
                     orderDto.setType(1);
+
+                    // Cập nhật trạng thái của đơn hàng thành "Đã thanh toán"
+                    OrderStatus paidStatus = orderStatusRepo.findById(2)
+                            .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
+
+                    orderDto.setOrderStatus(paidStatus);
+                    orderDto.setOrderStatusID(paidStatus.getId());  // Set giá trị cho orderStatusID
+                    orderDto.setStatus(true);  // Set giá trị cho status
 
                     orderService.saveOrderService(orderDto, httpSession);
                 }
             }
-
         }
-
 
         return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
     }
+
+
+
 }

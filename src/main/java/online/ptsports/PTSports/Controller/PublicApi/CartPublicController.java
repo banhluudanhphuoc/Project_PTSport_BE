@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -105,24 +106,22 @@ public class CartPublicController {
         return ResponseEntity.ok(cartService.addToCart(id, cartItem));
     }
 
-    @PutMapping("/delete/{userID}")
-    public ResponseEntity<?> deleteCartItem(@PathVariable("userID") Integer userID, @RequestParam("id") int id, @RequestParam("size") int sizeID, @RequestParam("color") int colorID,
-                                            final HttpServletRequest request, final HttpServletResponse response) {
-
-//        CartDto cart = (CartDto) request.getSession().getAttribute("cart");
-//        List<CartItemDto> itemList = cart.getItemList();
-//        int size = itemList.size();
-//        for (int i = 0; i < size; i++) {
-//            if (itemList.get(i).getProductID() == id && itemList.get(i).getSizeID() == sizeID && itemList.get(i).getColorID() == colorID) {
-//                itemList.remove(i);
-//            }
-//        }
-//        cart.setItemList(itemList);
-//        request.getSession().setAttribute("cart", cart);
+//    @PutMapping("/delete/{userID}")
+//    public ResponseEntity<?> deleteCartItem(@PathVariable("userID") Integer userID, @RequestParam("id") int id, @RequestParam("size") int sizeID, @RequestParam("color") int colorID,
+//                                            final HttpServletRequest request, final HttpServletResponse response) {
+//
+//        cartService.deleteCartItem(userID, id, sizeID, colorID);
 //        return new ResponseEntity<>(new ApiResponse("Delete success!!!", true), HttpStatus.OK);
-        cartService.deleteCartItem(userID, id, sizeID, colorID);
+//    }
+
+    @PutMapping("/delete")
+    public ResponseEntity<?> deleteCartItem( @RequestParam("id") int id,
+                                             final HttpServletRequest request, final HttpServletResponse response) {
+        cartItemRepo.deleteById(id);
         return new ResponseEntity<>(new ApiResponse("Delete success!!!", true), HttpStatus.OK);
     }
+
+
 
     @PutMapping("/update/{userID}/{id}")
     public ResponseEntity<CartItemDto> updateCartItem(@PathVariable("userID") int userID,

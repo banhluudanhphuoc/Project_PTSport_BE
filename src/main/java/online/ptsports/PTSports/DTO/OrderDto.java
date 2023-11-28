@@ -3,6 +3,7 @@ package online.ptsports.PTSports.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import online.ptsports.PTSports.Entity.OrderStatus;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,6 +21,8 @@ public class OrderDto implements Serializable{
     private String customerAddress;
     private String customerEmail;
     private int userID;
+    private int orderStatusID;
+    private OrderStatus orderStatus;
     private List<OrderProductDto>orderProducts;
 
     public Long vnp_Ammount;
