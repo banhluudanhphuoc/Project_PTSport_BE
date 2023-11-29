@@ -37,8 +37,18 @@ public class PaymentPublicController {
     CartService cartService;
     @Autowired
     private OrderStatusRepo orderStatusRepo;
-    @Autowired
-    private OrderRepo orderRepo;
+
+//    @PostMapping("/money")
+//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
+//        orderDto.setType(0);//truc tiep, status = false;
+//        long current = System.currentTimeMillis();
+//        orderDto.setCode("ORDER-"+current);
+//        orderDto.setVnp_OrderInfo("thanh toan hoa don ORDER-"+current);
+//        orderService.saveOrderService(orderDto, httpSession);
+//        return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
+//
+//    }
+
 
     @PostMapping("/pay")
     public String pay(@RequestBody OrderDto orderDto, HttpServletRequest request) {
@@ -66,17 +76,7 @@ public class PaymentPublicController {
             throw new RuntimeException(e);
         }
     }
-    @PostMapping("/money")
 
-    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
-        orderDto.setType(0);//truc tiep, status = false;
-        long current = System.currentTimeMillis();
-        orderDto.setCode("ORDER-"+current);
-        orderDto.setVnp_OrderInfo("thanh toan hoa don ORDER-"+current);
-        orderService.saveOrderService(orderDto, httpSession);
-        return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
-
-    }
 //    @PostMapping("/submit-order")
 //    public ResponseEntity<?>submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession){
 //        OrderDto orderDto = result.getOrderDto();
@@ -108,10 +108,44 @@ public class PaymentPublicController {
 //        return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
 //    }
 
+//    @PostMapping("/submit-order")
+//    public ResponseEntity<?> submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
+//        OrderDto orderDto = result.getOrderDto();
+//        String[] out = result.getString().split("&");
+//        for (int i = 0; i < out.length; i++) {
+//            if (out[i].startsWith("vnp_OrderInfo")) {
+//                String[] code = out[i].split("=");
+//                orderDto.setCode(code[1]);
+//            }
+//            if (out[i].startsWith("vnp_ResponseCode")) {
+//                String[] code = out[i].split("=");
+//                if (code[1].equals("00")) {
+//                    System.out.println("--------------code: " + code[1]);
+//                    orderDto.setType(1);
+//
+//                    // Cập nhật trạng thái của đơn hàng thành "Đã thanh toán"
+//                    OrderStatus paidStatus = orderStatusRepo.findById(2)
+//                            .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
+//
+//                    orderDto.setOrderStatus(paidStatus);
+//                    orderDto.setOrderStatusID(paidStatus.getId());  // Set giá trị cho orderStatusID
+//                    orderDto.setStatus(true);  // Set giá trị cho status
+//
+//                    orderService.saveOrderService(orderDto, httpSession);
+//                }
+//            }
+//        }
+//
+//        return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+//    }
+
     @PostMapping("/submit-order")
-    public ResponseEntity<?> submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
+    public ResponseEntity<?> submitOrder(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
         OrderDto orderDto = result.getOrderDto();
         String[] out = result.getString().split("&");
+
+
+
         for (int i = 0; i < out.length; i++) {
             if (out[i].startsWith("vnp_OrderInfo")) {
                 String[] code = out[i].split("=");
@@ -123,22 +157,45 @@ public class PaymentPublicController {
                     System.out.println("--------------code: " + code[1]);
                     orderDto.setType(1);
 
-                    // Cập nhật trạng thái của đơn hàng thành "Đã thanh toán"
+                    // Cập nhật trạng thái của đơn hàng thành "Đã Xác nhận"
                     OrderStatus paidStatus = orderStatusRepo.findById(2)
                             .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
 
                     orderDto.setOrderStatus(paidStatus);
                     orderDto.setOrderStatusID(paidStatus.getId());  // Set giá trị cho orderStatusID
                     orderDto.setStatus(true);  // Set giá trị cho status
-
-                    orderService.saveOrderService(orderDto, httpSession);
                 }
             }
         }
 
+        // Xử lý tạo đơn hàng
+        createOrder(orderDto, httpSession);
+
         return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
     }
 
+    // Phương thức tạo đơn hàng
+    private void createOrder(OrderDto orderDto, HttpSession httpSession) {
+        // Kiểm tra paymentMethodID và xử lý tạo đơn hàng
+        if (orderDto.getPaymentMethodID() == 1) {
+            // Tạo đơn hàng với status = true và orderStatusID = 1
+            orderDto.setType(1);
+            orderDto.setStatus(true);
+            orderDto.setOrderStatusID(1);
+        } else if (orderDto.getPaymentMethodID() == 2) {
+            // Tạo đơn hàng với status = true và orderStatusID = 2
+            orderDto.setType(1);
+            orderDto.setStatus(true);
+            orderDto.setOrderStatusID(2);
+        }
+
+        long current = System.currentTimeMillis();
+        orderDto.setCode("ORDER-"+current);
+        orderDto.setVnp_OrderInfo("thanh toan hoa don ORDER-"+current);
+
+        // Gọi phương thức saveOrderService để lưu đơn hàng
+        orderService.saveOrderService(orderDto, httpSession);
+    }
 
 
 }

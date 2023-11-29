@@ -25,6 +25,8 @@ public interface OrderService {
 
     void saveOrderService(OrderDto orderDto, HttpSession httpSession);
 
+    void updateOrderStatus (Integer orderId, Integer newOrderStatusId);
+
     Order convertToOrder(OrderDto orderDto);
 
     OrderDto convertToOrderDto(Order order);

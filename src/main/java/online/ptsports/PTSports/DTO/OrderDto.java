@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import online.ptsports.PTSports.Entity.OrderStatus;
+import online.ptsports.PTSports.Entity.PaymentMethod;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +24,8 @@ public class OrderDto implements Serializable{
     private int userID;
     private int orderStatusID;
     private OrderStatus orderStatus;
+    private PaymentMethod paymentMethod;
+    private int paymentMethodID;
     private List<OrderProductDto>orderProducts;
 
     public Long vnp_Ammount;

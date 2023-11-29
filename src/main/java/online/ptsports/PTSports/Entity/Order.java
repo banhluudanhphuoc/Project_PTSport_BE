@@ -48,6 +48,10 @@ public class Order extends TimeAuditable{
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethod paymentMethod;
+
     public void addOderProdcut(OrderProduct orderProduct){
         orderProduct.setOrder(this);
         orderProducts.add(orderProduct);

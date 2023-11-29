@@ -28,15 +28,26 @@ public class OrderPublicController {
     public ResponseEntity<List<OrderDto>>getAllOrder(){
         return ResponseEntity.ok(orderService.findOrder());
     }
-    @PostMapping("")
-    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession) {
-        try {
-            orderService.saveOrderService(orderDto, httpSession);
-            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession) {
+//        try {
+//            orderService.saveOrderService(orderDto, httpSession);
+//            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+//    @PostMapping
+//    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
+//        orderDto.setType(0);//truc tiep, status = false;
+//        long current = System.currentTimeMillis();
+//        orderDto.setCode("ORDER-"+current);
+//        orderDto.setVnp_OrderInfo("thanh toan hoa don ORDER-"+current);
+//        orderService.saveOrderService(orderDto, httpSession);
+//        return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
+//
+//    }
     @GetMapping("/{userID}")
 
     public ResponseEntity<List<OrderDto>>getOrdersByUser(@PathVariable("userID")Integer id){
