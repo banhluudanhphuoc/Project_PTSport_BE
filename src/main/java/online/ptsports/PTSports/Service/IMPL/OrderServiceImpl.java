@@ -329,9 +329,22 @@ public class OrderServiceImpl implements OrderService {
             orderProduct.setOrder(order);
             order.addOderProdcut(orderProduct);
 
-                totalPrice += cartItems.get(i).getTotalPrice();
-            }
-            order.setTotalPrice(totalPrice);
+            // Debug: Kiểm tra số lượng sản phẩm trước khi giảm
+            System.out.println("Remaining quantity for product " + orderProduct.getProduct().getId() +
+                    ": " + orderProduct.getProduct().getTotalQuantity());
+
+            // Giảm số lượng sản phẩm
+            orderProduct.getProduct().setTotalQuantity(
+                    orderProduct.getProduct().getTotalQuantity() - orderProduct.getQuantity());
+
+            // Debug: Kiểm tra số lượng sản phẩm sau khi giảm
+            System.out.println("Remaining quantity for product " + orderProduct.getProduct().getId() +
+                    " after reducing: " + orderProduct.getProduct().getTotalQuantity());
+
+            totalPrice += cartItems.get(i).getTotalPrice();
+        }
+        order.setTotalPrice(totalPrice);
+
 
             // Gán trạng thái mặc định cho đơn hàng mới nếu chưa set
             if (order.getOrderStatus() == null) {
@@ -352,6 +365,7 @@ public class OrderServiceImpl implements OrderService {
             for (int i = 0; i < cartItems1.size(); i++) {
                 cartItems1.get(i).setCart(null);
                 cartItemRepo.delete(cartItems1.get(i));
+
             }
             cartRepo.delete(cart1);
 

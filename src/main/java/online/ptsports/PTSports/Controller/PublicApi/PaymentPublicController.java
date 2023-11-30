@@ -174,8 +174,10 @@ public class PaymentPublicController {
         return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
     }
 
+    @PostMapping("/money")
     // Phương thức tạo đơn hàng
-    private void createOrder(OrderDto orderDto, HttpSession httpSession) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
+
         // Kiểm tra paymentMethodID và xử lý tạo đơn hàng
         if (orderDto.getPaymentMethodID() == 1) {
             // Tạo đơn hàng với status = true và orderStatusID = 1
@@ -195,6 +197,7 @@ public class PaymentPublicController {
 
         // Gọi phương thức saveOrderService để lưu đơn hàng
         orderService.saveOrderService(orderDto, httpSession);
+        return new ResponseEntity(new ApiResponse("success", true), HttpStatus.OK);
     }
 
 
