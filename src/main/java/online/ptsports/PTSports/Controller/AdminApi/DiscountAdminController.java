@@ -1,6 +1,7 @@
 package online.ptsports.PTSports.Controller.AdminApi;
 
 
+import online.ptsports.PTSports.DTO.CategoryDto;
 import online.ptsports.PTSports.DTO.DiscountDto;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
 import online.ptsports.PTSports.Entity.Discount;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -32,6 +35,13 @@ public class DiscountAdminController {
     public ResponseEntity<Void> deleteDiscount(@PathVariable Integer discountId) {
         discountService.deleteDiscountById(discountId);
         return new ResponseEntity(new ApiResponse("Delete Discount Success!!!", true), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
+    public ResponseEntity<List<DiscountDto>> getAll() {
+        return ResponseEntity.ok(discountService.getAllDiscounts());
     }
 
 

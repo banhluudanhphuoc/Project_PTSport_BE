@@ -1,16 +1,21 @@
 package online.ptsports.PTSports.Service.IMPL;
 
 
+import online.ptsports.PTSports.DTO.CategoryDto;
 import online.ptsports.PTSports.DTO.DiscountDto;
+import online.ptsports.PTSports.Entity.Category;
 import online.ptsports.PTSports.Entity.Discount;
 
 import online.ptsports.PTSports.Repository.DiscountRepo;
 import online.ptsports.PTSports.Service.DiscountService;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,7 +23,13 @@ import java.util.Optional;
 @Service
 public class DiscountServiceImpl implements DiscountService {
 
-    private final DiscountRepo discountRepo;
+//    private final DiscountRepo discountRepo;
+
+    @Autowired
+    DiscountRepo discountRepo;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Autowired
     public DiscountServiceImpl(DiscountRepo discountRepo) {
@@ -44,5 +55,28 @@ public class DiscountServiceImpl implements DiscountService {
         return optionalDiscount.orElse(null);
     }
 
+    @Override
+    public List<DiscountDto> getAllDiscounts() {
+        List<Discount> discounts = discountRepo.findAll();
+        List<DiscountDto> discountDtos = new ArrayList<>();
+        for (int i = 0; i < discounts.size(); i++) {
+            discountDtos.add(convertToDiscountDto(discounts.get(i)));
+        }
+        return discountDtos;
+    }
 
+
+    @Override
+    public DiscountDto convertToDiscountDto(Discount discount) {
+        return modelMapper.map(discount, DiscountDto.class);
+    }
+
+    @Override
+    public Discount convertToDiscount(DiscountDto discountDto) {
+        return modelMapper.map(discountDto, Discount.class);
+    }
 }
+
+
+
+
