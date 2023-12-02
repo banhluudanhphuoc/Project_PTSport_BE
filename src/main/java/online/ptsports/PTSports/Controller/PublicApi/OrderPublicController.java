@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class OrderPublicController {
     @Autowired
     OrderService orderService;
 
-//    @Autowired
+    //    @Autowired
 //    OrderProductService productService;
     @GetMapping("")
     public ResponseEntity<List<OrderDto>>getAllOrder(){
@@ -38,7 +38,7 @@ public class OrderPublicController {
 //        }
 //    }
 
-//    @PostMapping
+    //    @PostMapping
 //    public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto, HttpSession httpSession){
 //        orderDto.setType(0);//truc tiep, status = false;
 //        long current = System.currentTimeMillis();
@@ -66,4 +66,15 @@ public class OrderPublicController {
     public ResponseEntity<List<ProductDto>> getHotSaler(){
         return ResponseEntity.ok(orderService.hotSaler());
     }
+
+    @PostMapping("/cancel-order")
+    public ResponseEntity<?> updateOrderStatus(@RequestParam Integer orderId, @RequestParam Integer newOrderStatusId) {
+        try {
+            orderService.updateOrderStatus(orderId, newOrderStatusId);
+            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse("error", false), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

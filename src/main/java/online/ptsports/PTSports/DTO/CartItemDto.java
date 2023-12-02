@@ -23,5 +23,7 @@ public class CartItemDto implements Serializable {
     private double price;
     private Double totalPrice;
 
+//    private double discountedPrice;
+
 
 }

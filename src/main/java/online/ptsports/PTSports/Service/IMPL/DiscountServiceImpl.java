@@ -1,87 +1,48 @@
 package online.ptsports.PTSports.Service.IMPL;
 
-import online.ptsports.PTSports.DTO.DiscountDTO;
+
+import online.ptsports.PTSports.DTO.DiscountDto;
 import online.ptsports.PTSports.Entity.Discount;
-import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
+
 import online.ptsports.PTSports.Repository.DiscountRepo;
 import online.ptsports.PTSports.Service.DiscountService;
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+
+// DiscountServiceImpl.java
 @Service
 public class DiscountServiceImpl implements DiscountService {
 
-    @Autowired
-    private DiscountRepo discountRepo;
-
+    private final DiscountRepo discountRepo;
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    @Override
-    public List<DiscountDTO> getDiscountsByProductId(Integer productId) {
-        List<Discount> discounts = discountRepo.findByProductId(productId);
-        return discounts.stream()
-                .map(discount -> modelMapper.map(discount, DiscountDTO.class))
-                .collect(Collectors.toList());
+    public DiscountServiceImpl(DiscountRepo discountRepo) {
+        this.discountRepo = discountRepo;
     }
 
-
     @Override
-    public DiscountDTO addDiscount(DiscountDTO discountDTO) {
-        Discount discount = convertToDiscount(discountDTO);
-        discountRepo.save(discount);
-        return convertToDiscountDto(discount);
+    public Discount addDiscount(DiscountDto discountDTO) {
+        Discount discount = new Discount();
+        discount.setPercentage(discountDTO.getPercentage());
+        return discountRepo.save(discount);
     }
 
-
-
-//    @Override
-//    public DiscountDTO updateDiscount(Integer discountId, DiscountDTO discountDTO) {
-//        Discount existingDiscount = discountRepo.findById(discountId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Discount", "id", discountId));
-//
-//        modelMapper.map(discountDTO, existingDiscount);
-//        discountRepo.save(existingDiscount);
-//        return modelMapper.map(existingDiscount, DiscountDTO.class);
-//    }
-
     @Override
-    public DiscountDTO updateDiscount(DiscountDTO discountDTO, Integer Id) {
-        Discount discount = discountRepo.findById(Id).orElseThrow(()
-                -> new ResoureNotFoundException("Discount", "ID", Id));
-        Discount discountNew  = this.convertToDiscount(discountDTO);
-        discountNew.setId(discount.getId());
-        discountRepo.save(discount);
-        return this.convertToDiscountDto(discountNew);
+    public void deleteDiscountById(Integer discountId) {
+        discountRepo.deleteById(discountId);
     }
-
-//    @Override
-//    public void deleteDiscount(Integer discountId) {
-//        Discount discount = discountRepo.findById(discountId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Discount", "id", discountId));
-//
-//        discountRepo.delete(discount);
-//    }
 
 
     @Override
-    public void deleteDiscount(Integer discountId) {
-        Discount discount = discountRepo.findById(discountId).orElseThrow(()-> new ResoureNotFoundException("Discount", "ID", discountId));
-        discountRepo.deleteById(discount.getId());
+    public Discount getDiscountById(Integer discountId) {
+        Optional<Discount> optionalDiscount = discountRepo.findById(discountId);
+        return optionalDiscount.orElse(null);
     }
 
-    public DiscountDTO convertToDiscountDto(Discount discount){
-        return this.modelMapper.map(discount, DiscountDTO.class);
 
-    }
-    public Discount convertToDiscount(DiscountDTO discountDto){
-        return this.modelMapper.map(discountDto, Discount.class);
-
-    }
 }

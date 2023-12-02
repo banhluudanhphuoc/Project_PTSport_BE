@@ -1,15 +1,13 @@
 package online.ptsports.PTSports.Service;
 
-import online.ptsports.PTSports.DTO.DiscountDTO;
 
-import java.util.List;
+import online.ptsports.PTSports.DTO.DiscountDto;
+import online.ptsports.PTSports.Entity.Discount;
 
 public interface DiscountService {
-    List<DiscountDTO> getDiscountsByProductId(Integer productId);
-    DiscountDTO addDiscount(DiscountDTO discountDTO);
 
+        Discount addDiscount(DiscountDto discountDTO);
+        void deleteDiscountById(Integer discountId);
 
-    DiscountDTO updateDiscount(DiscountDTO discountDTO, Integer Id);
-
-    void deleteDiscount(Integer discountId);
+        Discount getDiscountById(Integer discountId);
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ProductService {
-    ProductDto getProductById(Integer generalId);
+//    ProductDto getProductById(Integer generalId);
 
     List<ProductDto> getAllProduct();
 
@@ -41,4 +41,15 @@ public interface ProductService {
     ProductDto convertToProductDto(Product product);
 
     int count();
+
+    void assignDiscountToProduct(Integer productId, Integer discountId);
+
+    ProductDto getProductById(Integer productId);
+
+    Product getProductByIds(Integer productId);
+
+
+    //    Product getProductByIds(Integer productId);
+    void saveProduct(Product product);
+
 }

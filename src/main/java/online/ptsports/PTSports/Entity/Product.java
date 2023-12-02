@@ -52,9 +52,13 @@ public class Product extends TimeAuditable {
     private Category category;
 
 
+    @Column(name = "discounted_price")
+    private Double discountedPrice;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
-    private List<Discount> discounts;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "discount_id")
+    private Discount discount;
+
 
 
 //    @ManyToMany(mappedBy = "product", cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
@@ -72,4 +76,17 @@ public class Product extends TimeAuditable {
         }
         listImage.clear();
     }
+
+    public void applyDiscount(Discount discount) {
+        if (discount != null) {
+            double discountPercentage = discount.getPercentage();
+            this.discount = discount;
+            this.discountedPrice = this.price - (this.price * (discountPercentage / 100.0));
+        } else {
+            this.discount = null;
+            this.discountedPrice = this.price;
+        }
+    }
+
+
 }

@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiscountDTO implements Serializable {
+public class DiscountDto implements Serializable {
     private double percentage;
-    private Integer productId;
+
 }
 

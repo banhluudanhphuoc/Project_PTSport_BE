@@ -4,6 +4,7 @@ package online.ptsports.PTSports.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import online.ptsports.PTSports.Entity.Discount;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
@@ -35,5 +36,11 @@ public class ProductDto implements Serializable {
     List<Integer>colorsID = new ArrayList<>();
     List<SizeDto>sizes = new ArrayList<>();
     List<ColorDto>colors = new ArrayList<>();
+
+//    private Discount discount;
+//    private int discountID;
+//    private boolean isDiscounted;
+    private Double discountedPrice;
+
 }
 

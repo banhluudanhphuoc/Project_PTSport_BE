@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DiscountRepo extends JpaRepository<Discount, Integer> {
-    List<Discount> findByProductId(Integer productId);
+
 }
 

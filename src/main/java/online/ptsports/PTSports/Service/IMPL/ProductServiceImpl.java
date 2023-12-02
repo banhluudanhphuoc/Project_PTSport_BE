@@ -8,6 +8,7 @@ import online.ptsports.PTSports.DTO.SearchDto;
 import online.ptsports.PTSports.Entity.*;
 import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
 import online.ptsports.PTSports.Repository.*;
+import online.ptsports.PTSports.Service.DiscountService;
 import online.ptsports.PTSports.Service.FileUploadCloudinary;
 import online.ptsports.PTSports.Service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    DiscountService discountService;
+
 
     @Autowired
     ProductRepo productRepo;
@@ -60,6 +65,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryRepo categoryRepo;
+    @Autowired
+    private DiscountRepo discountRepo;
 
     @Override
     public ProductDto getProductById(Integer productId) {
@@ -143,6 +150,84 @@ public class ProductServiceImpl implements ProductService {
         }
         return productDto;
     }
+
+//    @Override
+//    public ProductDto createProduct(ProductDto productDto) {
+//        try {
+//            Category category = categoryRepo.findById(productDto.getCategoryID())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Category", "ID", String.valueOf(productDto.getCategoryID())));
+//
+//            Catalog catalog = catalogRepo.findById(productDto.getCatalogID())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Catalog", "ID", String.valueOf(productDto.getCatalogID())));
+//
+//            Length length = lengthRepo.findById(productDto.getLengthIDX())
+//                    .orElseThrow(() -> new ResoureNotFoundException("Length", "ID", String.valueOf(productDto.getLengthIDX())));
+//
+//            Product product = this.convertToProduct(productDto);
+//
+//            List<Integer> sizesID = productDto.getSizesID();
+//            List<Size> lisSizes = new ArrayList<>();
+//            for (int i = 0; i < sizesID.size(); i++) {
+//                int finalI = i;
+//                Size size = sizeRepo.findById(sizesID.get(i)).orElseThrow(() -> new ResoureNotFoundException("Size", "ID", sizesID.get(finalI)));
+//                size.getProductList().add(product);
+//                lisSizes.add(size);
+//            }
+//            product.setSizes(lisSizes);
+//
+//            List<Integer> colorID = productDto.getColorsID();
+//            Set<Color> lisColors = new HashSet<>();
+//            for (int i = 0; i < colorID.size(); i++) {
+//                int finalI = i;
+//                Color color = colorRepo.findById(colorID.get(i)).orElseThrow(() -> new ResoureNotFoundException("Color", "ID", colorID.get(finalI)));
+//                color.getProductList().add(product);
+//                lisColors.add(color);
+//            }
+//            product.setColors(lisColors);
+//
+//            Set<MultipartFile> files = productDto.getFiles();
+//
+//            for (MultipartFile file : files) {
+//                String imageURL = fileUploadCloudinary.uploadFile(file);
+//                ImageProduct imageProduct = new ImageProduct();
+//                imageProduct.setProduct(product);
+//                imageProduct.setPath(imageURL);
+//                imageProduct.setTitle(imageURL);
+//                product.addProductImages(imageProduct);
+//            }
+//
+//            // Set the price based on whether the product has a discount
+//            if (productDto.isDiscounted()) {
+//                // Nếu có discountID, bạn có thể sử dụng nó để lấy thông tin về giảm giá từ cơ sở dữ liệu
+//                if (productDto.getDiscountID() != 0) {
+//                    Discount discount = discountRepo.findById(productDto.getDiscountID())
+//                            .orElseThrow(() -> new ResoureNotFoundException("Discount", "ID", String.valueOf(productDto.getDiscountID())));
+//
+//                    // Áp dụng giảm giá cho sản phẩm
+//                    double discountedPrice = productDto.getPrice() * (1 - discount.getPercentage() / 100);
+//                    product.setPrice(discountedPrice);
+//                } else {
+//                    // Nếu không có discountID, sử dụng giá giảm trực tiếp từ ProductDto
+//                    product.setPrice(productDto.getDiscountedPrice());
+//                }
+//            } else {
+//                // Nếu không giảm giá, sử dụng giá bình thường từ ProductDto
+//                product.setPrice(productDto.getPrice());
+//            }
+//
+//            product.setCatalog(catalog);
+//            product.setCategory(category);
+//            product.setLength(length);
+//            productRepo.save(product);
+//
+//            return this.convertToProductDto(product);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return productDto;
+//    }
+
+
 
 
 
@@ -350,4 +435,35 @@ public class ProductServiceImpl implements ProductService {
         int count = productRepo.totalQuantity();
         return count;
     }
+
+
+
+    @Override
+    public void saveProduct(Product product) {
+        productRepo.save(product);
+    }
+
+    @Override
+    public Product getProductByIds(Integer productId) {
+        return productRepo.findById(productId).orElseThrow(() ->
+                new ResoureNotFoundException("Product", "ID", productId)
+        );
+    }
+
+
+    @Override
+    public void assignDiscountToProduct(Integer productId, Integer discountId) {
+        Product product = getProductByIds(productId);
+        Discount discount = discountService.getDiscountById(discountId);
+
+        // Gọi phương thức trong Product để tính toán discountedPrice
+        product.applyDiscount(discount);
+
+        // Lưu lại thông tin đã cập nhật của Product
+        saveProduct(product);
+    }
+
+
+
+
 }

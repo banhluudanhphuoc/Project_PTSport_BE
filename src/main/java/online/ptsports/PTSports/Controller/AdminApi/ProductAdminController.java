@@ -66,4 +66,12 @@ public class ProductAdminController {
         return ResponseEntity.ok(productService.count());
     }
 
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/{productId}/assignDiscount/{discountId}")
+    public ResponseEntity<Void> assignDiscountToProduct(@PathVariable Integer productId, @PathVariable Integer discountId) {
+        productService.assignDiscountToProduct(productId, discountId);
+        return new ResponseEntity(new ApiResponse("success!!!", true), HttpStatus.OK);
+    }
+
 }

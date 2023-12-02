@@ -22,14 +22,5 @@ public class Discount extends TimeAuditable {
 
     private double percentage;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-//    @JoinColumn(name = "product_id")
-//    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id") // tên field khoá ngoại
-    @JsonIgnore
-    private Product product;
-
 
 }

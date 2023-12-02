@@ -25,6 +25,7 @@ public class CartItem extends TimeAuditable{
     private int quantity;
     private double price;
     private Double totalPrice;
+    private double discountedPrice;
 
    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
