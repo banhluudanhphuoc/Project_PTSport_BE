@@ -33,6 +33,8 @@ public class UserDto {
     @Size(min = 3,max = 10 ,message = "Password must be min of 3 chars and max of 10 chars !!")
     private String password;
 
+    private String oldPassword;
+
 
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     @DateTimeFormat(pattern = "dd/MM/yyyy")

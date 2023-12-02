@@ -18,7 +18,7 @@ public interface UserService {
 
    UserDto registerUser(UserDto userDto);
 
-   void updatePassword(UserDto userDTO);
+   void updatePassword(UserDto userDTO, String oldPassword);
 
 
    int count();

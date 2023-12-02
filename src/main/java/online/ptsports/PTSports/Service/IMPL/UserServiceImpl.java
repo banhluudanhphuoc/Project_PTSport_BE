@@ -147,15 +147,30 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    @Transactional
-    @Override
-    public void updatePassword(UserDto userDTO) {
-        User user = userRepo.findById(userDTO.getUserId()).orElseThrow(NoResultException::new);
+//    @Transactional
+//    @Override
+//    public void updatePassword(UserDto userDTO) {
+//        User user = userRepo.findById(userDTO.getUserId()).orElseThrow(NoResultException::new);
+//
+//        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+//
+//        userRepo.save(user);
+//    }
+@Transactional
+@Override
+public void updatePassword(UserDto userDTO, String oldPassword) {
+    User user = userRepo.findById(userDTO.getUserId()).orElseThrow(NoResultException::new);
 
-        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-
-        userRepo.save(user);
+    // Kiểm tra mật khẩu cũ
+    if (!new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
+        throw new IllegalArgumentException("Mật khẩu cũ không đúng");
     }
+
+    // Cập nhật mật khẩu mới
+    user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+
+    userRepo.save(user);
+}
 
 
     @Override

@@ -10,6 +10,7 @@ import online.ptsports.PTSports.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,12 +45,28 @@ public class UserPublicController {
 
     }
 
+//    @PutMapping("/user/password")
+//    public ResponseDTO<Void> updatePassword(
+//            @RequestBody  UserDto u) {
+//        userService.updatePassword(u);
+//        return ResponseDTO.<Void>builder().status(200).build();
+//    }
+
+
+
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable("userId") Integer uId) {
+        UserDto updatedUser = this.userService.updateUser(userDto,uId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
     @PutMapping("/user/password")
     public ResponseDTO<Void> updatePassword(
-            @RequestBody  UserDto u) {
-        userService.updatePassword(u);
+            @RequestBody UserDto userDto) {
+        userService.updatePassword(userDto , userDto.getOldPassword());
         return ResponseDTO.<Void>builder().status(200).build();
     }
+
 
 
 
