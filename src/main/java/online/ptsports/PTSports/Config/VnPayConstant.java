@@ -10,7 +10,6 @@ public abstract class VnPayConstant {
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "2.1.0";
     public static String vnp_TmnCode = "QFVUJGPB";
-
     public static String vnp_HashSecret = "BNPGWABXYQDKSZZHTDUTPBTTXWYDPFEI";
 
     public static String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
