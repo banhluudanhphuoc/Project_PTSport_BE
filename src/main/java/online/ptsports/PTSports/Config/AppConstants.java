@@ -11,5 +11,7 @@ public class AppConstants {
     public static final Integer ADMIN_ID = 101;
     public static final Integer USER_ID = 102;
 
+    // Thời gian hết hạn của token (5 phút)
+    public static final long PASSWORD_RESET_TOKEN_EXPIRATION_TIME = 5 * 60 * 1000; // 5 phút tính bằng mili giây
 
 }

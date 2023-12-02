@@ -45,18 +45,11 @@ public class UserDto {
     @JsonIgnore
     private MultipartFile file;
 
-
-
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
     private Date createdAt;
 
 
     private List<RoleDto> roles = new ArrayList<>();//roles[0].id=1
-
-
-
-
-
 
 
 }

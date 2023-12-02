@@ -38,9 +38,8 @@ public class ProductDto implements Serializable {
     List<ColorDto>colors = new ArrayList<>();
 
 //    private Discount discount;
-//    private int discountID;
-//    private boolean isDiscounted;
     private Double discountedPrice;
+    private int discountID;
 
 }
 

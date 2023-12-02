@@ -6,10 +6,14 @@ import online.ptsports.PTSports.Config.AppConstants;
 import online.ptsports.PTSports.DTO.PageDto;
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
 import online.ptsports.PTSports.DTO.UserDto;
+
+import online.ptsports.PTSports.Entity.PasswordResetToken;
 import online.ptsports.PTSports.Entity.Role;
 import online.ptsports.PTSports.Entity.User;
 import online.ptsports.PTSports.Exeption.ConflictException;
 import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
+
+import online.ptsports.PTSports.Repository.PasswordResetTokenRepo;
 import online.ptsports.PTSports.Repository.RoleRepo;
 import online.ptsports.PTSports.Repository.UserRepo;
 import online.ptsports.PTSports.Service.EmailService;
@@ -23,8 +27,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 
 import javax.persistence.NoResultException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,6 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private PasswordResetTokenRepo passwordResetTokenRepo;
 
 
     @Override
@@ -246,4 +254,58 @@ public void updatePassword(UserDto userDTO, String oldPassword) {
     public int count(){
         return (int)userRepo.count();
     }
+
+    @Override
+    @Transactional
+    public PasswordResetToken createPasswordResetToken(UserDto userDto) {
+        User user = userRepo.findByEmail(userDto.getEmail());
+
+        if (user == null) {
+            throw new ResoureNotFoundException("User", "Email", userDto.getEmail());
+        }
+
+        // Tạo token và lưu vào cơ sở dữ liệu
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setToken(token);
+        passwordResetToken.setUser(user);
+        passwordResetToken.setExpiryDate(new Date(System.currentTimeMillis() + AppConstants.PASSWORD_RESET_TOKEN_EXPIRATION_TIME));
+
+        passwordResetTokenRepo.save(passwordResetToken);
+
+        return passwordResetToken;
+    }
+
+    @Override
+    public PasswordResetToken getPasswordResetToken(String token) {
+        return passwordResetTokenRepo.findByToken(token);
+    }
+
+    @Override
+    @Transactional
+    public void updatePasswords(UserDto userDto, String token) {
+        PasswordResetToken passwordResetToken = getPasswordResetToken(token);
+
+        if (passwordResetToken == null || passwordResetToken.getExpiryDate().before(new Date())) {
+            throw new IllegalArgumentException("Token không hợp lệ hoặc đã hết hạn");
+        }
+
+        User user = passwordResetToken.getUser();
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+
+        // Lưu thông tin user đã cập nhật mật khẩu
+        userRepo.save(user);
+
+        // Xóa token sau khi đã sử dụng
+        passwordResetTokenRepo.delete(passwordResetToken);
+    }
+
+    @Override
+    @Transactional
+    public void deletePasswordResetToken(PasswordResetToken passwordResetToken) {
+        passwordResetTokenRepo.delete(passwordResetToken);
+    }
+
+
+
 }

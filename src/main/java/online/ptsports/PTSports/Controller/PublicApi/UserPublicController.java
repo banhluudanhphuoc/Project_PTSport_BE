@@ -3,14 +3,12 @@ package online.ptsports.PTSports.Controller.PublicApi;
 import com.cloudinary.Cloudinary;
 
 import online.ptsports.PTSports.DTO.Response.ApiResponse;
-import online.ptsports.PTSports.DTO.Response.ResponseDTO;
 import online.ptsports.PTSports.DTO.UserDto;
 import online.ptsports.PTSports.Service.FileUploadCloudinary;
 import online.ptsports.PTSports.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,11 +59,16 @@ public class UserPublicController {
     }
 
     @PutMapping("/user/password")
-    public ResponseDTO<Void> updatePassword(
+    public ResponseEntity<?> updatePassword(
             @RequestBody UserDto userDto) {
-        userService.updatePassword(userDto , userDto.getOldPassword());
-        return ResponseDTO.<Void>builder().status(200).build();
-    }
+        try {
+            userService.updatePassword(userDto, userDto.getOldPassword());
+            return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(new ApiResponse("Wrong old password", true), HttpStatus.OK);
+
+    }}
+
 
 
 
