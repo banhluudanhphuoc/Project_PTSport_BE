@@ -16,8 +16,9 @@ public class CorsConfig {
         config.addAllowedOrigin("https://ptsports.online");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader("Authorization");
+        config.setAllowCredentials(true); // Allow credentials (e.g., cookies)
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
-
