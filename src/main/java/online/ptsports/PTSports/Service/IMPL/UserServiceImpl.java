@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         String emailVerificationToken = UUID.randomUUID().toString();
 
         // Gửi email xác thực
-        String verificationLink = "http://localhost:3000/verify-email?token=" + emailVerificationToken;
+        String verificationLink = "https://ptsports.online/verify-email?token=" + emailVerificationToken;
         emailService.sendEmail(user.getEmail(), "Xác thực email", "Nhấn vào liên kết sau để xác thực email: " + verificationLink);
 
         // Lưu emailVerificationToken và đánh dấu user chưa xác thực

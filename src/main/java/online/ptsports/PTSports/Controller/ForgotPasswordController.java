@@ -68,7 +68,7 @@ public class ForgotPasswordController {
 
 
     private void sendResetPasswordEmail(String email, String token) {
-        String resetLink = "http://localhost:3000/reset-password?token=" + token;
+        String resetLink = "https://ptsports.online/reset-password?token=" + token;
 
         String emailContent = "Để đặt lại mật khẩu, hãy nhấp vào liên kết sau:\n" + resetLink;
 
