@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/cart")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class CartPublicController {
 
     @Autowired

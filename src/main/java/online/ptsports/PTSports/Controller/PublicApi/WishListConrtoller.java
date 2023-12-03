@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/public/wish-list")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class WishListConrtoller {
    @Autowired
    WishListService wishListService;

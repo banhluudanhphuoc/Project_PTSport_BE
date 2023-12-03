@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/public/payment")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class PaymentPublicController {
     @Autowired
     PaymentService paymentService;

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/products")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 
 public class ProductAdminController {
 

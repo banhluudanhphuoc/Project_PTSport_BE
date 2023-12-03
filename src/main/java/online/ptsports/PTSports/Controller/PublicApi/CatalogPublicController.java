@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/catalogs")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class CatalogPublicController {
     @Autowired
     CatalogService catalogService;

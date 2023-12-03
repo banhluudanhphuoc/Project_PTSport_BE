@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/public/")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class FilterProductPublicController {
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/colors")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class ColorPublicController {
     @Autowired
     ColorService colorService;

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/categories")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class CategoryPublicController {
     @Autowired
     CategoryService categoryService;

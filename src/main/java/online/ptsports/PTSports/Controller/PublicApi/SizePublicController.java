@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/sizes")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class SizePublicController {
     @Autowired
     SizeService sizeService;

@@ -29,7 +29,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;

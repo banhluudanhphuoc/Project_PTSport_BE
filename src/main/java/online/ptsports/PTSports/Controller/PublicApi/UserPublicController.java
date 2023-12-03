@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/public")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class UserPublicController {
     @Autowired
     private UserService userService;

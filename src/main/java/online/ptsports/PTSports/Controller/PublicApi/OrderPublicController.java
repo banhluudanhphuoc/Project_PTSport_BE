@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/orders")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class OrderPublicController {
 
     @Autowired

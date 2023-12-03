@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class ProductPublicController {
     @Autowired
     private ProductService productService;

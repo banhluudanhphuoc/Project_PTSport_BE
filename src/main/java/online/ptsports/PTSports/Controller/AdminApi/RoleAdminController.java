@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class RoleAdminController {
     @Autowired
 
