@@ -20,7 +20,9 @@ public class Discount extends TimeAuditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "percentage", nullable = false)
     private double percentage;
+
 
 
 }

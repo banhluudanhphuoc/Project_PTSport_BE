@@ -56,8 +56,9 @@ public class Product extends TimeAuditable {
     private Double discountedPrice;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "discount_id")
+    @JoinColumn(name = "discount_id", referencedColumnName = "id")
     private Discount discount;
+
 
 
 
