@@ -4,7 +4,7 @@ import online.ptsports.PTSports.DTO.Response.ApiResponse;
 import online.ptsports.PTSports.DTO.UserDto;
 import online.ptsports.PTSports.Entity.PasswordResetToken;
 
-import online.ptsports.PTSports.Repository.PasswordResetTokenRepo;
+
 import online.ptsports.PTSports.Service.EmailService;
 import online.ptsports.PTSports.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,8 @@ public class ForgotPasswordController {
     private EmailService emailService;
 
     @PostMapping("/request")
-    public ResponseEntity<ApiResponse> requestResetPassword(@RequestParam("email") String email) {
+    public ResponseEntity<?> requestResetPassword(@RequestParam("email") String email) {
+        try {
         UserDto userDto = userService.findByEmail(email);
 
         if (userDto == null) {
@@ -40,8 +41,10 @@ public class ForgotPasswordController {
         // Gửi email chứa liên kết đặt lại mật khẩu
         sendResetPasswordEmail(userDto.getEmail(), passwordResetToken.getToken());
 
-        return ResponseEntity.ok(new ApiResponse("Liên kết đặt lại mật khẩu đã được gửi đến email của bạn", true));
-    }
+            return new ResponseEntity<>(new ApiResponse("Liên kết thay đổi mật khẩu đã gửi về email của bạn", true), HttpStatus.OK);
+    } catch (Exception e){
+            return new ResponseEntity<>(new ApiResponse("Người dùng không tồn tại", false),HttpStatus.UNAUTHORIZED);
+        }}
 
     @PostMapping("/reset")
     public ResponseEntity<ApiResponse> resetPassword(@RequestParam("token") String token,

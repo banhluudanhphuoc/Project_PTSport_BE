@@ -65,7 +65,7 @@ public class UserPublicController {
             userService.updatePassword(userDto, userDto.getOldPassword());
             return new ResponseEntity<>(new ApiResponse("Thay Đổi Mật Khẩu Thành Công", true), HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>(new ApiResponse("Sai Mật Khẩu", true), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse("Sai Mật Khẩu", false), HttpStatus.UNAUTHORIZED);
 
     }}
 

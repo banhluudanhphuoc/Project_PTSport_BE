@@ -62,95 +62,73 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto addToCart(Integer userID, CartItemDto cartItemDto) {
-
-
         Cart cart = cartRepo.findCartByUserId(userID);
-
 
         if (cart == null) {
             cart = new Cart();
             cart.setUserId(userID);
             cart.setItemList(new ArrayList<>());
         }
-        System.out.println("____________"+cart.getId());
-//        CartDto cartDto = convertToCartDto(cart);
-//        List<CartItemDto> itemList = cartDto.getItemList();
 
-        Product product = productRepo.findById(cartItemDto.getProductID()).orElseThrow(()
-                -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
+        Product product = productRepo.findById(cartItemDto.getProductID())
+                .orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
         ProductDto productDto = productService.convertToProductDto(product);
-
 
         // Áp dụng giảm giá từ sản phẩm vào CartItemDto
         product.applyDiscount(product.getDiscount());
         cartItemDto.setPrice(product.getDiscountedPrice());
 
+        Color color = colorRepo.findById(cartItemDto.getColorID())
+                .orElseThrow(() -> new ResoureNotFoundException("Color", "ID", cartItemDto.getColorID()));
+        Size size = sizeRepo.findById(cartItemDto.getSizeID())
+                .orElseThrow(() -> new ResoureNotFoundException("Size", "ID", cartItemDto.getSizeID()));
 
-
-        Color color = colorRepo.findById(cartItemDto.getColorID()).orElseThrow(() -> new ResoureNotFoundException("Color", "ID", cartItemDto.getColorID()));
-        Size size = sizeRepo.findById(cartItemDto.getSizeID()).orElseThrow(() -> new ResoureNotFoundException("Size", "ID", cartItemDto.getSizeID()));
-
-List<CartItem>cartItems = cart.getItemList();
-
-
-        int count = 0;
-
-
-
-
+        List<CartItem> cartItems = cart.getItemList();
+        boolean productExistsInCart = false;
 
         for (CartItem item : cartItems) {
-            if (item.getProductID() == cartItemDto.getProductID() && item.getColorID() == cartItemDto.getColorID() && item.getSizeID() == cartItemDto.getSizeID()) {
+            if (item.getProductID() == cartItemDto.getProductID()
+                    && item.getColorID() == cartItemDto.getColorID()
+                    && item.getSizeID() == cartItemDto.getSizeID()) {
                 item.setQuantity(item.getQuantity() + cartItemDto.getQuantity());
                 if (item.getQuantity() >= productDto.getTotalQuantity()) {
                     item.setQuantity(productDto.getTotalQuantity());
                 }
-//                cartItemRepo.save(convertToCartItem(item));
-            } else {
-                count++;
+                productExistsInCart = true;
+                break;
             }
         }
 
-        if (count == cartItems.size()) {
+        if (!productExistsInCart) {
             if (cartItemDto.getQuantity() >= productDto.getTotalQuantity()) {
                 cartItemDto.setQuantity(productDto.getTotalQuantity());
             }
-//            cartItemDto.setColor(colorService.convertToColorDto(color));
-//            cartItemDto.setSize(sizeService.convertToSizeDto(size));
-//
-            cartItemDto.setProductName(productDto.getName());
-            cartItemDto.setPrice(productDto.getPrice());
-//            cartItemDto.setDiscountedPrice(productDto.getDiscountedPrice());
-            cartItemDto.setImage(productDto.getListImage().get(0).getTitle());
+
             CartItem cartItem = convertToCartItem(cartItemDto);
             cartItem.setCart(cart);
+
+            // Sao chép thông tin từ Product vào CartItem
+            cartItem.setProductName(productDto.getName());
+            cartItem.setPrice(productDto.getPrice());
+            cartItem.setDiscountedPrice(productDto.getDiscountedPrice());
+            cartItem.setImage(productDto.getListImage().get(0).getTitle());
+
             cartItems.add(cartItem);
         }
 
-
         for (CartItem item : cartItems) {
             // Cập nhật giảm giá của sản phẩm vào CartItem nếu có
-            double price;
-
-            if (product.getDiscountedPrice() != null) {
-                price = product.getDiscountedPrice(); // product.getDiscountedPrice() đã là kiểu double
-            } else {
-                price = product.getPrice();
-            }
-
+            double price = item.getDiscountedPrice() != 0 ? item.getDiscountedPrice() : item.getPrice();
             item.setPrice(price);
-            item.setDiscountedPrice(product.getDiscountedPrice());
             item.setTotalPrice(item.getPrice() * item.getQuantity());
         }
-
-
-
 
         cart.setItemList(cartItems);
         cartRepo.save(cart);
 
         return convertToCartDto(cart);
     }
+
 
 //    @Override
 //    public CartDto addToCart(Integer userID, CartItemDto cartItemDto) {
