@@ -58,7 +58,7 @@ public class PaymentPublicController {
                 price+= cart.getItemList().get(i).getTotalPrice();
             }
 
-            orderDto.setVnp_Ammount((long)price);
+            orderDto.setVnp_Ammount((long)price * 100);
             return paymentService.payWithVNPAY(orderDto, request);
 
         } catch (UnsupportedEncodingException e) {
