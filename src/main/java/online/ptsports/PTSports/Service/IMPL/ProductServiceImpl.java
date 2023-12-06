@@ -386,6 +386,31 @@ public class ProductServiceImpl implements ProductService {
         saveProduct(product);
     }
 
+    @Override
+    public List<ProductDto> getLatestProducts(int numberOfProducts) {
+        List<Product> products = productRepo.findAllByOrderByCreatedAtDesc();
+
+        List<ProductDto> latestProducts = products.stream()
+                .limit(numberOfProducts)
+                .map(this::convertToProductDto)
+                .collect(Collectors.toList());
+
+        return latestProducts;
+    }
+
+    @Override
+    public List<ProductDto> getDiscountedProducts(int numberOfProducts) {
+        List<Product> discountedProducts = productRepo.findAllByDiscountIsNotNullOrderByCreatedAtDesc()
+                .stream()
+                .limit(numberOfProducts)
+                .collect(Collectors.toList());
+
+        return discountedProducts.stream()
+                .map(this::convertToProductDto)
+                .collect(Collectors.toList());
+    }
+
+
 
 }
 

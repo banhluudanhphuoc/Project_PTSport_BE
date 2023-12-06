@@ -13,6 +13,10 @@ import java.util.List;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
 
+    List<Product> findAllByOrderByCreatedAtDesc();
+    List<Product> findAllByDiscountIsNotNullOrderByCreatedAtDesc();
+
+
     @Query("select p from Product p where p.name like %:key% order by p.name")
     List<Product> searchByName(@Param("key") String name);
 

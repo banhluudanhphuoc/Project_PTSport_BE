@@ -63,4 +63,18 @@ public class ProductPublicController {
     public ResponseEntity<List<ProductDto>>filterByCategory(@PathVariable("id")int id){
         return ResponseEntity.ok(productService.filterByCategory(id));
     }
+
+    @GetMapping("/products/latest")
+    public List<ProductDto> getLatestProducts() {
+        List<ProductDto> latestProducts = productService.getLatestProducts(8);
+        return latestProducts;
+    }
+
+    @GetMapping("/products/discounts")
+    public List<ProductDto> getDiscountedProducts() {
+        List<ProductDto> discountedProducts = productService.getDiscountedProducts(9);
+        return discountedProducts;
+    }
+
+
 }

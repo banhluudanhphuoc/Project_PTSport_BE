@@ -52,4 +52,7 @@ public interface ProductService {
     //    Product getProductByIds(Integer productId);
     void saveProduct(Product product);
 
+    List<ProductDto> getLatestProducts(int numberOfProducts);
+    List<ProductDto> getDiscountedProducts(int numberOfProducts);
+
 }
