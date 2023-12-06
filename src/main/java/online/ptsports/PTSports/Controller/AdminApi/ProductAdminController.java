@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/products")
-@CrossOrigin(origins = "https://ptsports.online")
+@CrossOrigin
 
 public class ProductAdminController {
 
@@ -27,19 +27,19 @@ public class ProductAdminController {
     @Autowired
     ProductService productService;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<List<ProductDto>> getAll(){
         return ResponseEntity.ok(productService.getAllProduct());
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getOne(@PathVariable("id")Integer id){
         return  ResponseEntity.ok(productService.getProductById(id));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<ProductDto>createGeneral(@ModelAttribute ProductDto productDto)throws IOException{
 //    return ResponseEntity.ok(generalProductService.createGeneral(generalProductDto));
@@ -47,27 +47,27 @@ public class ProductAdminController {
         return ResponseEntity.ok(productService.createProduct(productDto));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductDto>updateGeneral(@ModelAttribute ProductDto productDto, @PathVariable("id")Integer id)throws IOException{
         return  ResponseEntity.ok(productService.updateProduct(productDto, id));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping ("/delete/{id}")
     public ResponseEntity<?>deleteGeneral(@PathVariable("id")Integer id){
         productService.deleteProduct(id);
         return new ResponseEntity(new ApiResponse("General delete success!!!", true), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/count")
     public ResponseEntity<Integer> countProduct(){
         return ResponseEntity.ok(productService.count());
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/{productId}/assignDiscount/{discountId}")
     public ResponseEntity<Void> assignDiscountToProduct(@PathVariable Integer productId, @PathVariable Integer discountId) {
         productService.assignDiscountToProduct(productId, discountId);

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/orders")
-@CrossOrigin(origins = "https://ptsports.online")
+@CrossOrigin
 public class OrderStatusAdminController {
 
     @Autowired
     private OrderService orderService;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/update-order-status")
     public ResponseEntity<?> updateOrderStatus(@RequestParam Integer orderId, @RequestParam Integer newOrderStatusId) {
         try {

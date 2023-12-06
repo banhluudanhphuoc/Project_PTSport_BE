@@ -17,28 +17,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/discounts")
-@CrossOrigin(origins = "https://ptsports.online")
+@CrossOrigin
 public class DiscountAdminController {
 
     @Autowired
     DiscountService discountService;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Discount> addDiscount(@RequestBody DiscountDto discountDTO) {
         Discount newDiscount = discountService.addDiscount(discountDTO);
         return new ResponseEntity(new ApiResponse("Add Discount Success!!!", true), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{discountId}")
     public ResponseEntity<Void> deleteDiscount(@PathVariable Integer discountId) {
         discountService.deleteDiscountById(discountId);
         return new ResponseEntity(new ApiResponse("Delete Discount Success!!!", true), HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
 
     public ResponseEntity<List<DiscountDto>> getAll() {
         return ResponseEntity.ok(discountService.getAllDiscounts());

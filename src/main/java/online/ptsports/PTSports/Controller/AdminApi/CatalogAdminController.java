@@ -16,37 +16,37 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/catalogs")
-@CrossOrigin(origins = "https://ptsports.online")
+@CrossOrigin
 public class CatalogAdminController {
     @Autowired
     CatalogService catalogService;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<List<CatalogDto>> getAll(){
         return ResponseEntity.ok(catalogService.getAllCatalogs());
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<CatalogDto>getCatalog(@PathVariable("id") Integer id){
         return ResponseEntity.ok(catalogService.getCatalogById(id));
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<CatalogDto>createCatalog(@RequestBody CatalogDto catalogDto){
         return ResponseEntity.ok(catalogService.createCatalog(catalogDto));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<CatalogDto>updateCatalog(@PathVariable("id")Integer id, @RequestBody CatalogDto catalogDto){
         return ResponseEntity.ok(catalogService.updateCatalog(catalogDto, id));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCatalog(@PathVariable("id")Integer id){
         catalogService.deleteCatalog(id);
@@ -54,7 +54,7 @@ public class CatalogAdminController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addCatalogs")
     public ResponseEntity<?>  addCatalods(@RequestBody List<Catalog> catalogs) {
 
@@ -65,7 +65,7 @@ public class CatalogAdminController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/deleteCatalogs")
     public ResponseEntity<?> deleteCatalogs(@RequestBody List<Integer> catalogIds) {
         catalogService.deleteCatalogsService(catalogIds);

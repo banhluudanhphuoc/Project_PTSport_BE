@@ -58,8 +58,9 @@
         public SecurityFilterChain configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
 
-                    .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                    .antMatchers("/api/auth/**" , "/api/public/**").permitAll()
+//                    .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                    .antMatchers("/api/auth/**" , "/api/public/**" ,
+                            "/api/admin/**").permitAll()
                     .anyRequest().permitAll()
 
 

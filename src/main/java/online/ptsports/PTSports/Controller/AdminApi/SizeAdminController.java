@@ -15,43 +15,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/sizes")
-@CrossOrigin(origins = "https://ptsports.online")
+@CrossOrigin
 public class SizeAdminController {
     @Autowired
     SizeService sizeService;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<List<SizeDto>> getAllSize(){
         return ResponseEntity.ok(sizeService.getAllSize());
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<SizeDto> getOne(@PathVariable("id")Integer id){
         return ResponseEntity.ok(sizeService.getSizeById(id));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<SizeDto>createColor(@RequestBody SizeDto sizeDto){
         return ResponseEntity.ok(sizeService.createSize(sizeDto));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<SizeDto>updateColor(@PathVariable("id")Integer id, @RequestBody SizeDto sizeDto){
         return ResponseEntity.ok(sizeService.updateSize(sizeDto, id));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteColor(@PathVariable("id")Integer id){
         sizeService.deleteSize(id);
         return new ResponseEntity(new ApiResponse("Delete success!!!", true), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addSizes")
     public ResponseEntity<?>  addSizes(@RequestBody List<Size> sizes) {
 
@@ -61,7 +61,7 @@ public class SizeAdminController {
         return new ResponseEntity(new ApiResponse("Add all success!!!", true), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/deleteSizes")
     public ResponseEntity<?> deleteSizes(@RequestBody List<Integer> sizeIds) {
         sizeService.deleteSizesService(sizeIds);
