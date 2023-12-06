@@ -21,30 +21,30 @@ public class LengthAdminController {
     @Autowired
     LengthService lengthService;
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<List<LengthDto>> getAll(){
         return ResponseEntity.ok(lengthService.getAllLengths());
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<LengthDto>getLength(@PathVariable("id") Integer id){
         return ResponseEntity.ok(lengthService.getLengthById(id));
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<LengthDto>createLength(@RequestBody LengthDto lengthDto){
         return ResponseEntity.ok(lengthService.createLength(lengthDto));
     }
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<LengthDto>updateCatalog(@PathVariable("id")Integer id, @RequestBody LengthDto lengthDto){
         return ResponseEntity.ok(lengthService.updateLength(lengthDto, id));
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteLength(@PathVariable("id")Integer id){
         lengthService.deleteLength(id);
@@ -52,7 +52,7 @@ public class LengthAdminController {
     }
 
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addLengths")
     public ResponseEntity<?>  addLengths(@RequestBody List<Length> lengths) {
 
@@ -62,7 +62,7 @@ public class LengthAdminController {
         return new ResponseEntity(new ApiResponse("Add all success!!!", true), HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/deleteLengths")
     public ResponseEntity<?> deleteLengths(@RequestBody List<Integer> ids) {
         lengthService.deleteLengthsService(ids);

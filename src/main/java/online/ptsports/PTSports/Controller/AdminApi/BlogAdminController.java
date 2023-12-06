@@ -20,31 +20,31 @@ public class BlogAdminController {
     @Autowired
     BlogService blogService;
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping()
     public ResponseEntity<List<BlogDto>> getAll(){
         return ResponseEntity.ok(blogService.getAllBlogs());
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<BlogDto>getBlog(@PathVariable("id") Integer id){
         return ResponseEntity.ok(blogService.getBlogById(id));
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping()
     public ResponseEntity<BlogDto>createBlog(@RequestBody BlogDto catalogDto){
         return ResponseEntity.ok(blogService.createBlog(catalogDto));
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<BlogDto>updateBlog(@PathVariable("id")Integer id, @RequestBody BlogDto catalogDto){
         return ResponseEntity.ok(blogService.updateBlog(catalogDto, id));
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteBlog(@PathVariable("id")Integer id){
         blogService.deleteBlog(id);

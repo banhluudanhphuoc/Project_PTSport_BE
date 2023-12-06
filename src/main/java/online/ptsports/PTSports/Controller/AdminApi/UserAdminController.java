@@ -38,7 +38,7 @@ public class UserAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAdminController.class);
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     //GET user get all
     @GetMapping("/users")
     public ResponseEntity<PageDto<UserDto>> getAllUsers(
@@ -54,7 +54,7 @@ public class UserAdminController {
         return new ResponseEntity<PageDto<UserDto>>(allPageUsers, HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/users")
 
     public ResponseDTO< UserDto> add(@Valid @ModelAttribute UserDto u) throws IllegalStateException, IOException {
@@ -69,14 +69,14 @@ public class UserAdminController {
 
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/users/{userId}")
     public ResponseEntity<UserDto> getUserBy(@PathVariable("userId") Integer uId) {
         return ResponseEntity.ok(this.userService.getUserById(uId));
     }
 
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer uId) throws IOException {
 
