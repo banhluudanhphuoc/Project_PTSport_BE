@@ -30,6 +30,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
+    //    config.addAllowedOrigin("*");  // Cho phép truy cập từ tất cả các origin
         config.addAllowedOrigin("https://ptsports.online");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
