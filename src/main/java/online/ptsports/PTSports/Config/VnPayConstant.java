@@ -9,7 +9,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 public abstract class VnPayConstant {
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
