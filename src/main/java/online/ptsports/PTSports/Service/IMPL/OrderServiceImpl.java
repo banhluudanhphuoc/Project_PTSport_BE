@@ -10,6 +10,7 @@ import online.ptsports.PTSports.Entity.*;
 import online.ptsports.PTSports.Exeption.ResoureNotFoundException;
 import online.ptsports.PTSports.Repository.*;
 import online.ptsports.PTSports.Service.CartService;
+import online.ptsports.PTSports.Service.NotificationService;
 import online.ptsports.PTSports.Service.OrderService;
 import online.ptsports.PTSports.Service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +77,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     PaymentMethodRepo paymentMethodRepo;
+
+    @Autowired
+    NotificationService notificationService;
+
 
     @Override
     public OrderDto findOrderById(int orderID) {
@@ -179,8 +185,9 @@ public class OrderServiceImpl implements OrderService {
             for (int i = 0; i < cartItems.size(); i++) {
                             OrderProduct orderProduct = new OrderProduct();
             int finalI = i;
-            orderProduct.setProduct(productRepo.findById(cartItems.get(i).getProductID())
+            orderProduct.setProductID(productRepo.findById(cartItems.get(i).getProductID())
                     .orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItems.get(finalI).getProductID())));
+
             orderProduct.setSize(sizeRepo.findById(cartItems.get(i).getSizeID())
                     .orElseThrow(() -> new ResoureNotFoundException("Size", "ID", cartItems.get(finalI).getSizeID())));
             orderProduct.setColor(colorRepo.findById(cartItems.get(i).getColorID())
@@ -192,16 +199,16 @@ public class OrderServiceImpl implements OrderService {
             order.addOderProdcut(orderProduct);
 
             // Debug: Kiểm tra số lượng sản phẩm trước khi giảm
-            System.out.println("Remaining quantity for product " + orderProduct.getProduct().getId() +
-                    ": " + orderProduct.getProduct().getTotalQuantity());
+            System.out.println("Remaining quantity for product " + orderProduct.getProductID().getId() +
+                    ": " + orderProduct.getProductID().getTotalQuantity());
 
             // Giảm số lượng sản phẩm
-            orderProduct.getProduct().setTotalQuantity(
-                    orderProduct.getProduct().getTotalQuantity() - orderProduct.getQuantity());
+            orderProduct.getProductID().setTotalQuantity(
+                    orderProduct.getProductID().getTotalQuantity() - orderProduct.getQuantity());
 
             // Debug: Kiểm tra số lượng sản phẩm sau khi giảm
-            System.out.println("Remaining quantity for product " + orderProduct.getProduct().getId() +
-                    " after reducing: " + orderProduct.getProduct().getTotalQuantity());
+            System.out.println("Remaining quantity for product " + orderProduct.getProductID().getId() +
+                    " after reducing: " + orderProduct.getProductID().getTotalQuantity());
 
             totalPrice += cartItems.get(i).getTotalPrice();
         }
@@ -284,6 +291,9 @@ public class OrderServiceImpl implements OrderService {
 
             order.setOrderStatus(newOrderStatus);
             orderRepo.save(order);
+            if (newOrderStatusId == 6) {
+                notificationService.createNotificationForCompletedOrder(order, order.getUser());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

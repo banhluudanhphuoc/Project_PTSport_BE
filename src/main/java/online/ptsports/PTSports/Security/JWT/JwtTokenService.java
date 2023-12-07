@@ -25,21 +25,7 @@ public class JwtTokenService {
     @Autowired
     UserDetailsService userDetailsService;
 
-//    public String createToken(String username) {
-//        Claims claims = Jwts.claims().setSubject(username);
-////		claims.put(username, claims);
-//
-//        Date now = new Date();
-//        Date exp = new Date(now.getTime() + validityInMilliseconds);
-//        String accessToken = Jwts.builder()//
-//                .setClaims(claims)//
-//                .setIssuedAt(now)//
-//                .setExpiration(exp)//
-//                .signWith(SignatureAlgorithm.HS256, secretKey)//
-//                .compact();
-//
-//        return accessToken;
-//    }
+
 public String createToken(String email) {
     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
     Claims claims = Jwts.claims().setSubject(userDetails.getUsername());

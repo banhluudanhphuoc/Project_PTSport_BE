@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/categories")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class CategoryAdminController {
     @Autowired
     CategoryService categoryService;

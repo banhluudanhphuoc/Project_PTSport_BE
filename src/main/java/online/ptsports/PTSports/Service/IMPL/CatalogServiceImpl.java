@@ -24,13 +24,6 @@ public class CatalogServiceImpl implements CatalogService {
     @Autowired
     ModelMapper modelMapper;
 
-//    @Override
-//    public CatalogDto createCatalog(CatalogDto catalogDto) {
-//        Catalog catalog = this.convertToCatalog(catalogDto);
-//        catalogRepo.save(catalog);
-//        return catalogDto;
-//
-//    }
 
     @Override
     public CatalogDto createCatalog(CatalogDto catalogDto) {

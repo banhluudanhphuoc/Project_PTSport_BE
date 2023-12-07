@@ -67,39 +67,6 @@ public class PaymentPublicController {
     }
 
 
-
-//    @PostMapping("/submit-order")
-//    public ResponseEntity<?>submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession){
-//        OrderDto orderDto = result.getOrderDto();
-//        String[] out = result.getString().split("&");
-//        for (int i = 0; i < out.length; i++) {
-//
-//            if(out[i].startsWith("vnp_OrderInfo")){
-//                String[]code = out[i].split("=");
-//                orderDto.setCode(code[1]);
-//            }
-//            if(out[i].startsWith("vnp_ResponseCode")){
-//                String[]code = out[i].split("=");
-//                if(code[1].equals("00")){
-//                    System.out.println("--------------code: "+ code[1]);
-//                    orderDto.setType(1);
-//
-//                    orderService.saveOrderService(orderDto, httpSession);
-//                }
-//            }
-//
-//        }
-//
-//        // Gán trạng thái "Đã Xác Nhận : Id = 2"cho đơn hàng
-//        Order order = new Order();
-//        OrderStatus updateStatus = orderStatusRepo.findById(2)
-//                .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
-//
-//        order.setOrderStatus(updateStatus);
-//        return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
-//
-//    }
-
     @PostMapping("/submit-order")
     public ResponseEntity<?> submit(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
         OrderDto orderDto = result.getOrderDto();
@@ -131,40 +98,6 @@ public class PaymentPublicController {
         return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
     }
 
-//    @PostMapping("/submit-order")
-//    public ResponseEntity<?> submitOrder(@RequestBody SubmitOrderDto result, HttpServletRequest request, HttpSession httpSession) {
-//        OrderDto orderDto = result.getOrderDto();
-//        String[] out = result.getString().split("&");
-//
-//
-//
-//        for (int i = 0; i < out.length; i++) {
-//            if (out[i].startsWith("vnp_OrderInfo")) {
-//                String[] code = out[i].split("=");
-//                orderDto.setCode(code[1]);
-//            }
-//            if (out[i].startsWith("vnp_ResponseCode")) {
-//                String[] code = out[i].split("=");
-//                if (code[1].equals("00")) {
-//                    System.out.println("--------------code: " + code[1]);
-//                    orderDto.setType(1);
-//
-//                    // Cập nhật trạng thái của đơn hàng thành "Đã Xác nhận"
-//                    OrderStatus paidStatus = orderStatusRepo.findById(2)
-//                            .orElseThrow(() -> new ResoureNotFoundException("OrderStatus", "ID", 2));
-//
-//                    orderDto.setOrderStatus(paidStatus);
-//                    orderDto.setOrderStatusID(paidStatus.getId());  // Set giá trị cho orderStatusID
-//                    orderDto.setStatus(true);  // Set giá trị cho status
-//                }
-//            }
-//        }
-//
-//        // Xử lý tạo đơn hàng
-//        createOrder(orderDto, httpSession);
-//
-//        return new ResponseEntity<>(new ApiResponse("success", true), HttpStatus.OK);
-//    }
 
     @PostMapping("/money")
     // Phương thức tạo đơn hàng

@@ -120,10 +120,6 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogDto createBlog(BlogDto blogDto) {
         Blog blog = convertToBlog(blogDto);
-        // Retrieve the category as needed
-        // Example: Category category = categoryRepo.findById(blogDto.getCategoryId()).orElse(null);
-        // Set the category to the blog entity
-        // blog.setCategory(category);
         blogRepo.save(blog);
         return convertToBlogDto(blog);
     }

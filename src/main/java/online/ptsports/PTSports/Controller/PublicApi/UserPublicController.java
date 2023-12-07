@@ -43,12 +43,6 @@ public class UserPublicController {
 
     }
 
-//    @PutMapping("/user/password")
-//    public ResponseDTO<Void> updatePassword(
-//            @RequestBody  UserDto u) {
-//        userService.updatePassword(u);
-//        return ResponseDTO.<Void>builder().status(200).build();
-//    }
 
 
 

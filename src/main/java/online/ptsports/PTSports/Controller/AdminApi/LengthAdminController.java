@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/lengths")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class LengthAdminController {
     @Autowired
     LengthService lengthService;

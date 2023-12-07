@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/orders")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class OrderStatusAdminController {
 
     @Autowired

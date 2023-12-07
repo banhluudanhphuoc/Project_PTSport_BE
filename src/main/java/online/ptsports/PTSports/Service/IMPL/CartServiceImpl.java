@@ -130,79 +130,6 @@ public class CartServiceImpl implements CartService {
     }
 
 
-//    @Override
-//    public CartDto addToCart(Integer userID, CartItemDto cartItemDto) {
-//        Cart cart = cartRepo.findCartByUserId(userID);
-//
-//        if (cart == null) {
-//            cart = new Cart();
-//            cart.setUserId(userID);
-//            cart.setItemList(new ArrayList<>());
-//        }
-//
-//        Product product = productRepo.findById(cartItemDto.getProductID())
-//                .orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
-//        ProductDto productDto = productService.convertToProductDto(product);
-//
-//        Color color = colorRepo.findById(cartItemDto.getColorID())
-//                .orElseThrow(() -> new ResoureNotFoundException("Color", "ID", cartItemDto.getColorID()));
-//        Size size = sizeRepo.findById(cartItemDto.getSizeID())
-//                .orElseThrow(() -> new ResoureNotFoundException("Size", "ID", cartItemDto.getSizeID()));
-//
-//        List<CartItem> cartItems = cart.getItemList();
-//
-//        boolean productHasDiscount = productDto.getDiscountedPrice() != null;
-//
-//        boolean itemExists = cartItems.stream()
-//                .anyMatch(item -> item.getProductID() == cartItemDto.getProductID()
-//                        && item.getColorID() == cartItemDto.getColorID()
-//                        && item.getSizeID() == cartItemDto.getSizeID());
-//
-//        if (itemExists) {
-//            for (CartItem item : cartItems) {
-//                if (item.getProductID() == cartItemDto.getProductID()
-//                        && item.getColorID() == cartItemDto.getColorID()
-//                        && item.getSizeID() == cartItemDto.getSizeID()) {
-//                    item.setQuantity(Math.min(item.getQuantity() + cartItemDto.getQuantity(), productDto.getTotalQuantity()));
-//                    item.setTotalPrice(item.getPrice() * item.getQuantity());
-//
-//                    // Set the item price based on whether the product has a discount
-//                    if (productHasDiscount) {
-//                        item.setPrice(productDto.getDiscountedPrice());
-//                    } else {
-//                        item.setPrice(productDto.getPrice());
-//                    }
-//                }
-//            }
-//        } else {
-//            int quantityToAdd = Math.min(cartItemDto.getQuantity(), productDto.getTotalQuantity());
-//
-//            // Set the item price based on whether the product has a discount
-//            double itemPrice = productHasDiscount ? productDto.getDiscountedPrice() : productDto.getPrice();
-//
-//            CartItem newItem = new CartItem();
-//            newItem.setProductID(cartItemDto.getProductID());
-//            newItem.setProductName(productDto.getName());
-//            newItem.setImage(productDto.getListImage().get(0).getTitle());
-//            newItem.setSizeID(cartItemDto.getSizeID());
-//            newItem.setColorID(cartItemDto.getColorID());
-//            newItem.setQuantity(quantityToAdd);
-//            newItem.setPrice(itemPrice);
-//            newItem.setTotalPrice(itemPrice * quantityToAdd);
-//
-//            cartItems.add(newItem);
-//        }
-//
-//        cart.setItemList(cartItems);
-//        cartRepo.save(cart);
-//
-//        return convertToCartDto(cart);
-//    }
-
-
-
-
-
 
     @Override
     public void deleteCartItem(int userID, int id, int sizeID, int colorID) {
@@ -221,35 +148,7 @@ public class CartServiceImpl implements CartService {
         cartRepo.save(cart);
     }
 
-//    @Override
-//    public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDto) {
-//        Cart cart = cartRepo.findCartByUserId(userID);
-//
-//        List<CartItem> cartItems = cart.getItemList();
-//        Product product = productRepo.findById(cartItemDto.getProductID()).orElseThrow(() -> new ResoureNotFoundException("Product", "ID", cartItemDto.getProductID()));
-//        ProductDto productDto = productService.convertToProductDto(product);
-//CartItem cartItem = null;
-//        for (CartItem item : cartItems) {
-//
-//            if ((item.getId()==itemID) && (item.getProductID() == cartItemDto.getProductID()) && (item.getColorID() == cartItemDto.getColorID()) && (item.getSizeID() == cartItemDto.getSizeID())) {
-//
-//                item.setQuantity(cartItemDto.getQuantity());
-//
-//                if (item.getQuantity() >= productDto.getTotalQuantity()) {
-//                    item.setQuantity(productDto.getTotalQuantity());
-//                }
-//                item.setTotalPrice(cartItemDto.getPrice() * cartItemDto.getQuantity());
-//            cartItem = item;
-//            } else {
-//                continue;
-//            }
-//        }
-//
-//        cart.setItemList(cartItems);
-//
-//        cartRepo.save(cart);
-//        return convertToCartItemDto(cartItem);
-//    }
+
 @Override
 public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDto) {
     Cart cart = cartRepo.findCartByUserId(userID);
@@ -285,17 +184,6 @@ public CartItemDto updateCartItem(int userID, int itemID, CartItemDto cartItemDt
 }
 
 
-//    @Override
-//    public void deleteCart(int userID) {
-//        Cart cart = cartRepo.findCartByUserId(userID);
-//        List<CartItem>cartItems = cart.getItemList();
-//        for (int i = 0; i < cartItems.size(); i++) {
-//            cartItems.get(i).setCart(null);
-//            cartItemRepo.delete(cartItems.get(i));
-//        }
-//
-//        cartRepo.delete(cart);
-//    }
 
     @Override
     public int countItem(int userID) {

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/discounts")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class DiscountAdminController {
 
     @Autowired

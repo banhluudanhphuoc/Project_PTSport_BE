@@ -17,7 +17,7 @@ public class OrderProduct extends TimeAuditable{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Product productID;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "size_id")

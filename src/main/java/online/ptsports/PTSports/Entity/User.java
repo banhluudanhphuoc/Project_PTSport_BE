@@ -1,6 +1,7 @@
 package online.ptsports.PTSports.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +45,7 @@ public class User extends TimeAuditable implements Serializable {
     @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles ;
+
 
 
 

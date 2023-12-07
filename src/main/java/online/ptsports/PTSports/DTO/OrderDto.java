@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDto implements Serializable{
     private Integer id;
+    private String productName;
     private String code;
     private Double totalPrice;
     private String customerPhone;

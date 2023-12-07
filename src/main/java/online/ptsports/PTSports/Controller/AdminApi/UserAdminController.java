@@ -23,7 +23,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin
+@CrossOrigin(origins = "https://ptsports.online")
 public class UserAdminController {
     @Autowired
     private UserService userService;

@@ -221,12 +221,6 @@ public void updatePassword(UserDto userDTO, String oldPassword) {
     }
 
 
-//    @Override
-//    public List<UserDto> searchUsers(String keyword) {
-//        List<User> users = this.userRepo.searchByEmail("%" + keyword +"%");
-//        List<UserDto> userDtos = users.stream().map((user) -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
-//        return userDtos;
-//    }
 
     private User convertToUser(UserDto userDto) {
         //cach 2
