@@ -27,6 +27,6 @@ public abstract class VnPayConstant {
     //    public static String vnp_IpAddr = "0:0:0:0:0:0:0:1";
     public static String vnp_Locale = "vn";
     public static String vnp_ReturnUrl = "https://ptsports.online/confirmation";
-//    public static String vnp_ReturnUrl = "http://localhost:3000/confirmation";
+
 
 }
