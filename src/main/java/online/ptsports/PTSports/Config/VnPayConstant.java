@@ -2,12 +2,14 @@ package online.ptsports.PTSports.Config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 @Data
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
 public abstract class VnPayConstant {
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
@@ -27,6 +29,6 @@ public abstract class VnPayConstant {
     //    public static String vnp_IpAddr = "0:0:0:0:0:0:0:1";
     public static String vnp_Locale = "vn";
     public static String vnp_ReturnUrl = "https://ptsports.online/confirmation";
-
+    //    public static String vnp_ReturnUrl = "http://localhost:3000/confirmation";
 
 }
