@@ -8,6 +8,6 @@ import java.io.Serializable;
 public class PaymentDto implements Serializable {
     public Long vnp_Ammount;
     public String vnp_OrderInfo;
-    public String vnp_OrderType = "200000";
+    public String vnp_OrderType = "100";
     public Long vnp_TxnRef;
 }
