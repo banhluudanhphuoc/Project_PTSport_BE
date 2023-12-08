@@ -14,6 +14,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -21,13 +24,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public String payWithVNPAY(OrderDto orderDto, HttpServletRequest request) throws UnsupportedEncodingException {
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//        String vnp_CreateDate = formatter.format(cld.getTime());
+//
+//        cld.add(Calendar.MINUTE,15);
+//        String vnp_ExpireDate = formatter.format(cld.getTime());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(cld.getTime());
+        LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(7); // Đặt múi giờ +7
 
-        cld.add(Calendar.MINUTE,15);
-        String vnp_ExpireDate = formatter.format(cld.getTime());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+// Thêm 7 tiếng vào vnp_CreateDate
+        LocalDateTime vnp_CreateDateTime = now.plusHours(7);
+        String vnp_CreateDate = vnp_CreateDateTime.format(formatter);
+
+// Thêm 7 tiếng 15 phút vào vnp_ExpireDate
+        LocalDateTime expireDateTime = now.plusMinutes(15).plusHours(7);
+        String vnp_ExpireDate = expireDateTime.format(formatter);
 
         Map<String,String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VnPayConstant.vnp_Version);
