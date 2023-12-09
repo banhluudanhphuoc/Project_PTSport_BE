@@ -8,6 +8,7 @@ import online.ptsports.PTSports.Entity.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -39,5 +40,7 @@ public class OrderDto implements Serializable{
     //    private UserDto user;
     public Integer type;
     private Boolean status;
+    private Date createdAt;
+    private Date updatedAt;
 
 }

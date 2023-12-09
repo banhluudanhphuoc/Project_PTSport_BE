@@ -27,7 +27,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
+import java.time.LocalDate;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.persistence.NoResultException;
 import java.util.Date;
@@ -70,6 +71,20 @@ public class UserServiceImpl implements UserService {
 
     }
 
+//    @Override
+//    @Transactional
+//    public UserDto updateUser(UserDto userDto, Integer userId) {
+//        User user = this.userRepo.findById(userId)
+//                .orElseThrow(() -> new ResoureNotFoundException("User", "Id", userId));
+//        user.setName(userDto.getName());
+//        user.setEmail(userDto.getEmail());
+//        user.setBirthdate(userDto.getBirthdate());
+//
+//        User updatedUser = this.userRepo.save(user);
+//        UserDto userDto1 = this.convertToUserDto(updatedUser);
+//        return userDto1;
+//    }
+
     @Override
     @Transactional
     public UserDto updateUser(UserDto userDto, Integer userId) {
@@ -77,8 +92,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResoureNotFoundException("User", "Id", userId));
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-        user.setBirthdate(userDto.getBirthdate());
-
+        Date newBirthdate = DateUtils.addDays(userDto.getBirthdate(), 1);
+        user.setBirthdate(newBirthdate);
         User updatedUser = this.userRepo.save(user);
         UserDto userDto1 = this.convertToUserDto(updatedUser);
         return userDto1;
